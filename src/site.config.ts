@@ -51,11 +51,12 @@ export const theme: ThemeUserConfig = {
     menu: [
       { title: '博文', link: '/blog' },
       { title: '文档', link: '/docs' },
-      { title: '项目', link: '/projects' },
+      // { title: '项目', link: '/projects' },
       { title: '电影', link: '/movies' },
       { title: '阅读', link: '/books' },
-      { title: '友链', link: '/links' },
-      { title: '关于', link: '/about' }
+      { title: '游戏', link: '/games' },
+      // { title: '友链', link: '/links' },
+      // { title: '关于', link: '/about' }
     ]
   },
 
@@ -66,16 +67,16 @@ export const theme: ThemeUserConfig = {
     // year: `© 2019 - ${new Date().getFullYear()}`,
     links: [
       // Registration link
-      {
-        title: 'Moe ICP 114514',
-        link: 'https://icp.gov.moe/?keyword=114514',
-        style: 'text-sm' // Uno/TW CSS class
-      },
-      {
-        title: 'Travelling',
-        link: 'https://www.travellings.cn/go.html',
-        style: 'text-sm'
-      },
+      // {
+      //   title: 'Moe ICP 114514',
+      //   link: 'https://icp.gov.moe/?keyword=114514',
+      //   style: 'text-sm' // Uno/TW CSS class
+      // },
+      // {
+      //   title: 'Travelling',
+      //   link: 'https://www.travellings.cn/go.html',
+      //   style: 'text-sm'
+      // },
       // Privacy Policy link
       {
         title: 'Site Policy',
@@ -86,7 +87,7 @@ export const theme: ThemeUserConfig = {
     /** Enable displaying a “Astro & Pure theme powered” link in your site’s footer. */
     credits: true,
     /** Optional details about the social media accounts for this site. */
-    social: { github: 'https://github.com/cworld1/astro-theme-pure' }
+    social: { github: 'https://github.com/BFscCQ/astro-theme-pure' }
   },
 
   content: {

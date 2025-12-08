@@ -13,6 +13,7 @@ import config from '@/site-config'
 
 import moviesData from 'public/movies.json'
 import booksData from 'public/books.json'
+import gamesData from 'public/games.json'
 
 const languages = ['Html', 'JavaScript', 'CSS', 'Shell']
 const frontend = ['TypeScript', 'Vite', 'Webpack', 'Astro']
@@ -24,7 +25,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 
 // 获取最近7天内的活动
 interface Activity {
-  type: 'movie' | 'series' | 'anime' | 'book'
+  type: 'movie' | 'series' | 'anime' | 'book' | 'game'
   title: string
   date: string
   cover?: string
@@ -95,6 +96,25 @@ for (const key of bookCategories) {
   }
 }
 
+// 从游戏数据获取活动
+const gameCategories = ['playing', 'played']
+for (const key of gameCategories) {
+  const items = (gamesData as Record<string, any[]>)[key] || []
+  for (const item of items) {
+    if (item.play_date && isWithinDays(item.play_date, 7)) {
+      recentActivities.push({
+        type: 'game',
+        title: item.name,
+        date: item.play_date,
+        cover: item.image,
+        rating: item.rating,
+        comment: item.description,
+        link: '/games'
+      })
+    }
+  }
+}
+
 // 按日期排序（最新的在前）
 recentActivities.sort((a, b) => {
   const dateA = parseDate(a.date)?.getTime() || 0
@@ -107,7 +127,8 @@ const typeLabels: Record<Activity['type'], string> = {
   movie: '看了电影',
   series: '看了剧集',
   anime: '看了动漫',
-  book: '读了书籍'
+  book: '读了书籍',
+  game: '玩了游戏'
 }
 
 const imagePath = config.logo.src
@@ -134,13 +155,13 @@ if (!images[imagePath])
       <div class='flex flex-col items-center gap-y-4'>
         <h1 class='text-3xl font-bold'>{config.author}</h1>
         <div class='flex flex-wrap justify-center gap-x-7 gap-y-3'>
-          <Label title='China'>
+          <Label title='苏州'>
             <Icon name='location' class='size-5' slot='icon' />
           </Label>
           <Label
-            title='Source code'
+            title='源码'
             as='a'
-            href='https://github.com/cworld1/astro-theme-pure'
+            href='https://github.com/BFscCQ/astro-theme-pure'
             target='_blank'
           >
             <Icon name='github' class='size-5' slot='icon' />
@@ -149,8 +170,8 @@ if (!images[imagePath])
       </div>
 
       {/* Get template */}
-      <a
-        href='https://github.com/cworld1/astro-theme-pure'
+      <!-- <a
+        href='https://github.com/BFscCQ/astro-theme-pure'
         target='_blank'
         class='flex flex-row items-center gap-x-3 rounded-full border bg-background px-4 py-2 text-sm shadow-sm transition-shadow hover:shadow-md'
       >
@@ -161,7 +182,7 @@ if (!images[imagePath])
           <span class='size-2 rounded-full bg-green-400'></span>
         </span>
         <p class='font-medium text-muted-foreground'>Get Template</p>
-      </a>
+      </a> -->
     </section>
 
     <div id='content' class='animate flex flex-col gap-y-10 md:w-4/5 lg:w-5/6'>
@@ -169,8 +190,8 @@ if (!images[imagePath])
         <p class='text-muted-foreground'>移动安全开发工程师</p>
         <p class='text-muted-foreground'>
           我是一名移动安全开发工程师，主要负责移动应用与业务系统的安全架构设计、安全漏洞分析、逆向与应用加固相关工作。
-          具备移动端攻防技术经验，能够为产品提供风险评估、漏洞修复方案以及安全策略支持。
-          多次参与 CAPPVD 与 CNNVD 的漏洞上报、复现与验证流程，为多个项目提供安全加固与合规支持。
+          具备多年移动端攻防技术经验，能够为产品提供风险评估、漏洞修复方案以及安全策略支持。
+          多年以来一直参与 CAPPVD 与 CNNVD 的漏洞上报、复现与验证流程，为国内诸多APP项目提供安全加固与合规支持。
         </p>
         <Button title='更多' class='w-fit self-end' href='/about' variant='ahead' />
       </Section>
@@ -261,7 +282,7 @@ if (!images[imagePath])
         }
       </Section>
 
-      <Section title='Website List'>
+      <!-- <Section title='Website List'>
         <div class='grid grid-cols-1 gap-3 sm:grid-cols-2'>
           <ProjectCard
             href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
@@ -288,9 +309,9 @@ if (!images[imagePath])
             imagePath='/src/assets/projects/4.jpg'
           />
         </div>
-      </Section>
+      </Section> -->
 
-      <Section title='Certifications'>
+      <!-- <Section title='Certifications'>
         <Card
           as='a'
           heading='Lorem ipsum'
@@ -298,13 +319,13 @@ if (!images[imagePath])
           date='July 2024'
           href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
         />
-      </Section>
+      </Section> -->
 
-      <Section title='技能'>
-        <SkillLayout title='Languages' skills={languages} />
-        <SkillLayout title='Frontend' skills={frontend} />
+      <!-- <Section title='技能'>
+        <SkillLayout title='编程' skills={languages} />
+        <SkillLayout title='生活' skills={frontend} />
         <SkillLayout title='Backend' skills={backend} />
-      </Section>
+      </Section> -->
     </div>
     <Quote class='mt-12' />
   </main>
