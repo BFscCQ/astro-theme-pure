@@ -53,6 +53,7 @@ export const theme: ThemeUserConfig = {
       { title: '文档', link: '/docs' },
       { title: '项目', link: '/projects' },
       { title: '电影', link: '/movies' },
+      { title: '阅读', link: '/books' },
       { title: '友链', link: '/links' },
       { title: '关于', link: '/about' }
     ]

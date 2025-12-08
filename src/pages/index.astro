@@ -11,6 +11,9 @@ import Section from '@/components/home/Section.astro'
 import SkillLayout from '@/components/home/SkillLayout.astro'
 import config from '@/site-config'
 
+import moviesData from 'public/movies.json'
+import booksData from 'public/books.json'
+
 const languages = ['Html', 'JavaScript', 'CSS', 'Shell']
 const frontend = ['TypeScript', 'Vite', 'Webpack', 'Astro']
 const backend = ['Vercel', 'Waline']
@@ -18,6 +21,94 @@ const backend = ['Vercel', 'Waline']
 const MAX_POSTS = 10
 const allPosts = await getBlogCollection()
 const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
+
+// 获取最近7天内的活动
+interface Activity {
+  type: 'movie' | 'series' | 'anime' | 'book'
+  title: string
+  date: string
+  cover?: string
+  rating?: string
+  comment?: string
+  link?: string
+}
+
+function parseDate(dateStr: string): Date | null {
+  if (!dateStr) return null
+  // 支持 2025/09/18 或 2025.08.26 格式
+  const normalized = dateStr.replace(/\./g, '/')
+  const date = new Date(normalized)
+  return isNaN(date.getTime()) ? null : date
+}
+
+function isWithinDays(dateStr: string, days: number): boolean {
+  const date = parseDate(dateStr)
+  if (!date) return false
+  const now = new Date()
+  const diffTime = now.getTime() - date.getTime()
+  const diffDays = diffTime / (1000 * 60 * 60 * 24)
+  return diffDays >= 0 && diffDays <= days
+}
+
+const recentActivities: Activity[] = []
+
+// 从电影数据获取活动
+const movieCategories = [
+  { key: 'movies', type: 'movie' as const },
+  { key: 'series', type: 'series' as const },
+  { key: 'anime', type: 'anime' as const }
+]
+
+for (const { key, type } of movieCategories) {
+  const items = (moviesData as Record<string, any[]>)[key] || []
+  for (const item of items) {
+    if (item.watchDate && isWithinDays(item.watchDate, 7)) {
+      recentActivities.push({
+        type,
+        title: item.title,
+        date: item.watchDate,
+        cover: item.cover,
+        rating: item.rating,
+        comment: item.comment,
+        link: '/movies'
+      })
+    }
+  }
+}
+
+// 从书籍数据获取活动
+const bookCategories = ['reading', 'read']
+for (const key of bookCategories) {
+  const items = (booksData as Record<string, any[]>)[key] || []
+  for (const item of items) {
+    if (item.read_date && isWithinDays(item.read_date, 7)) {
+      recentActivities.push({
+        type: 'book',
+        title: item.name,
+        date: item.read_date,
+        cover: item.image,
+        rating: item.rating,
+        comment: item.description,
+        link: '/books'
+      })
+    }
+  }
+}
+
+// 按日期排序（最新的在前）
+recentActivities.sort((a, b) => {
+  const dateA = parseDate(a.date)?.getTime() || 0
+  const dateB = parseDate(b.date)?.getTime() || 0
+  return dateB - dateA
+})
+
+// 活动类型映射
+const typeLabels: Record<Activity['type'], string> = {
+  movie: '看了电影',
+  series: '看了剧集',
+  anime: '看了动漫',
+  book: '读了书籍'
+}
 
 const imagePath = config.logo.src
 const images = import.meta.glob<{ default: ImageMetadata }>(
@@ -81,7 +172,7 @@ if (!images[imagePath])
           具备移动端攻防技术经验，能够为产品提供风险评估、漏洞修复方案以及安全策略支持。
           多次参与 CAPPVD 与 CNNVD 的漏洞上报、复现与验证流程，为多个项目提供安全加固与合规支持。
         </p>
-        <Button title='更多关于' class='w-fit self-end' href='/about' variant='ahead' />
+        <Button title='更多' class='w-fit self-end' href='/about' variant='ahead' />
       </Section>
       {
         allPostsByDate.length > 0 && (
@@ -93,7 +184,7 @@ if (!images[imagePath])
                 </li>
               ))}
             </ul>
-            <Button title='更多文章' class='w-fit self-end' href='/blog' variant='ahead' />
+            <Button title='更多' class='w-fit self-end' href='/blog' variant='ahead' />
           </Section>
         )
       }
@@ -127,24 +218,47 @@ if (!images[imagePath])
       />
     </Section> */
       }
-      <Section title='Education'>
-        <Card
-          as='a'
-          heading='Lorem ipsum'
-          subheading='Lorem ipsum dolor sit amet, vidit suscipit at mei.'
-          date='August 2021 - July 2025'
-          href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-        >
-          {
-            /* <ul class='ms-4 list-disc text-muted-foreground'>
-          <li>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
-            molestiae laboriosam pariatur!
-          </li>
-          <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
-        </ul> */
-          }
-        </Card>
+      <Section title='活动'>
+        {
+          recentActivities.length > 0 ? (
+            <ul class='flex flex-col gap-y-3'>
+              {recentActivities.map((activity) => (
+                <li>
+                  <a
+                    href={activity.link}
+                    class='flex items-center gap-4 rounded-xl border bg-muted px-4 py-3 transition-all hover:border-foreground/25 hover:shadow-sm'
+                  >
+                    {activity.cover && (
+                      <img
+                        src={activity.cover}
+                        alt={activity.title}
+                        class='h-16 w-12 rounded object-cover'
+                        loading='lazy'
+                      />
+                    )}
+                    <div class='flex-1 min-w-0'>
+                      <div class='flex items-center gap-2'>
+                        <span class='text-xs text-primary bg-primary/10 px-2 py-0.5 rounded'>
+                          {typeLabels[activity.type]}
+                        </span>
+                        <span class='text-xs text-muted-foreground'>{activity.date}</span>
+                        {activity.rating && (
+                          <span class='text-xs'>{activity.rating}</span>
+                        )}
+                      </div>
+                      <h3 class='font-medium mt-1 truncate'>{activity.title}</h3>
+                      {activity.comment && (
+                        <p class='text-sm text-muted-foreground line-clamp-1 mt-0.5'>{activity.comment}</p>
+                      )}
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p class='text-muted-foreground'>最近7天没有活动记录</p>
+          )
+        }
       </Section>
 
       <Section title='Website List'>
