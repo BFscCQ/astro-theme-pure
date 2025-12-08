@@ -9,6 +9,21 @@ import config from '@/site-config'
 import '@/assets/styles/global.css'
 import '@/assets/styles/app.css'
 
+// 类型定义
+interface WatchedItem {
+  title: string
+  watchDate?: string
+  cover?: string
+  rating?: string
+  comment?: string
+}
+
+interface WantToWatchItem {
+  title: string
+  cover?: string
+  reason?: string
+}
+
 const TMDB_API_KEY = import.meta.env.TMDB_API_KEY
 
 // 延迟函数
@@ -66,10 +81,10 @@ async function enrichWithCovers<T extends { title: string; cover?: string }>(
 }
 
 // 获取所有分类的数据并填充封面（顺序执行避免并发过高）
-const wantToWatch = await enrichWithCovers(data.wantToWatch)
-const movies = await enrichWithCovers(data.movies)
-const tvShows = await enrichWithCovers(data.tvShows)
-const anime = await enrichWithCovers(data.anime)
+const wantToWatch = await enrichWithCovers(data.wantToWatch as WantToWatchItem[])
+const movies = await enrichWithCovers(data.movies as WatchedItem[])
+const tvShows = await enrichWithCovers(data.tvShows as WatchedItem[])
+const anime = await enrichWithCovers(data.anime as WatchedItem[])
 
 const headings = [
   { depth: 2, slug: 'want-to-watch', text: '想看' },
