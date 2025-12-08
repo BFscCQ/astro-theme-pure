@@ -86,11 +86,12 @@ const movies = await enrichWithCovers(data.movies as WatchedItem[])
 const tvShows = await enrichWithCovers(data.tvShows as WatchedItem[])
 const anime = await enrichWithCovers(data.anime as WatchedItem[])
 
+// 动态生成 headings，只包含有内容的分类
 const headings = [
-  { depth: 2, slug: 'want-to-watch', text: '想看' },
-  { depth: 2, slug: 'movies', text: '电影' },
-  { depth: 2, slug: 'tv-shows', text: '剧集' },
-  { depth: 2, slug: 'anime', text: '动漫' }
+  ...(wantToWatch.length > 0 ? [{ depth: 2, slug: 'want-to-watch', text: '想看' }] : []),
+  ...(movies.length > 0 ? [{ depth: 2, slug: 'movies', text: '电影' }] : []),
+  ...(tvShows.length > 0 ? [{ depth: 2, slug: 'tv-shows', text: '剧集' }] : []),
+  ...(anime.length > 0 ? [{ depth: 2, slug: 'anime', text: '动漫' }] : [])
 ]
 ---
 
