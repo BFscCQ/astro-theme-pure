@@ -26,61 +26,71 @@ interface WantToWatchItem {
 
 const TMDB_API_KEY = import.meta.env.TMDB_API_KEY
 
-// 延迟函数
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+// 简单的内存缓存
+const coverCache = new Map<string, string>()
 
-// 通过 TMDB API 获取封面（带重试）
-async function fetchCover(title: string, retries = 3): Promise<string | null> {
+// 延迟函数
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
+// 通过 TMDB API 获取封面（带缓存和重试）
+async function fetchCover(title: string, retries = 2): Promise<string | null> {
   if (!TMDB_API_KEY) return null
+
+  // 检查缓存
+  if (coverCache.has(title)) {
+    return coverCache.get(title) || null
+  }
 
   for (let i = 0; i < retries; i++) {
     try {
       const res = await fetch(
         `https://api.themoviedb.org/3/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(title)}&language=zh-CN`,
-        { signal: AbortSignal.timeout(10000) } // 10秒超时
+        { signal: AbortSignal.timeout(5000) } // 5秒超时
       )
       const data = await res.json()
       if (data.results?.[0]?.poster_path) {
-        return `https://www.themoviedb.org/t/p/w600_and_h900_face${data.results[0].poster_path}`
+        const cover = `https://www.themoviedb.org/t/p/w600_and_h900_face${data.results[0].poster_path}`
+        coverCache.set(title, cover)
+        return cover
       }
       return null
     } catch (e) {
       if (i < retries - 1) {
-        await delay(1000 * (i + 1)) // 递增延迟重试
+        await delay(500 * (i + 1))
         continue
       }
-      console.error(`Failed to fetch cover for ${title} after ${retries} retries`)
+      console.error(`Failed to fetch cover for ${title}`)
     }
   }
   return null
 }
 
-// 批量处理，限制并发数
-async function enrichWithCovers<T extends { title: string; cover?: string }>(
-  items: T[],
-  concurrency = 3
-): Promise<T[]> {
-  const results: T[] = []
+// 批量处理，只为缺少 cover 的项目获取封面
+async function enrichWithCovers<T extends { title: string; cover?: string }>(items: T[]): Promise<T[]> {
+  // 筛选出需要获取封面的项目
+  const needsFetch = items.filter((item) => !item.cover && TMDB_API_KEY)
 
-  for (let i = 0; i < items.length; i += concurrency) {
-    const batch = items.slice(i, i + concurrency)
-    const enriched = await Promise.all(
-      batch.map(async (item) => {
-        // 如果已有 cover 且 API Key 未设置，使用现有的
-        if (item.cover && !TMDB_API_KEY) return item
-        const cover = await fetchCover(item.title)
-        return { ...item, cover: cover || item.cover || '' }
-      })
-    )
-    results.push(...enriched)
-    // 批次间延迟，避免请求过快
-    if (i + concurrency < items.length) await delay(300)
+  // 如果没有需要获取的，直接返回
+  if (needsFetch.length === 0) {
+    return items
   }
 
-  return results
+  // 并发获取缺失的封面（限制并发数为 3）
+  const concurrency = 3
+  for (let i = 0; i < needsFetch.length; i += concurrency) {
+    const batch = needsFetch.slice(i, i + concurrency)
+    await Promise.all(batch.map((item) => fetchCover(item.title)))
+    if (i + concurrency < needsFetch.length) await delay(200)
+  }
+
+  // 返回带有封面的数据
+  return items.map((item) => ({
+    ...item,
+    cover: item.cover || coverCache.get(item.title) || ''
+  }))
 }
 
-// 获取所有分类的数据并填充封面（顺序执行避免并发过高）
+// 获取所有分类的数据并填充封面
 const wantToWatch = await enrichWithCovers(data.wantToWatch as WantToWatchItem[])
 const movies = await enrichWithCovers(data.movies as WatchedItem[])
 const tvShows = await enrichWithCovers(data.tvShows as WatchedItem[])
@@ -175,13 +185,15 @@ const headings = [
             <h2 id='movies' class='text-2xl font-semibold mb-6'>电影</h2>
             <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
               {
-                movies.map((movie) => (
+                movies.map((movie, index) => (
                   <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
                     <div class='overflow-hidden' style='aspect-ratio: 486 / 730;'>
                       <img
                         src={movie.cover}
                         alt={movie.title}
                         class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                        loading={index < 10 ? 'eager' : 'lazy'}
+                        fetchpriority={index < 5 ? 'high' : 'auto'}
                       />
                     </div>
                     <div class='p-3'>
@@ -201,13 +213,14 @@ const headings = [
             <h2 id='tv-shows' class='text-2xl font-semibold mb-6'>剧集</h2>
             <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
               {
-                tvShows.map((show) => (
+                tvShows.map((show, index) => (
                   <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
                     <div class='overflow-hidden' style='aspect-ratio: 486 / 730;'>
                       <img
                         src={show.cover}
                         alt={show.title}
                         class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                        loading={index < 5 ? 'eager' : 'lazy'}
                       />
                     </div>
                     <div class='p-3'>
@@ -227,13 +240,15 @@ const headings = [
             <h2 id='anime' class='text-2xl font-semibold mb-6'>动漫</h2>
             <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'>
               {
-                anime.map((item) => (
+                anime.map((item, index) => (
                   <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
                     <div class='overflow-hidden' style='aspect-ratio: 486 / 730;'>
                       <img
                         src={item.cover}
                         alt={item.title}
                         class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                        loading={index < 5 ? 'eager' : 'lazy'}
+                        fetchpriority={index === 0 ? 'high' : 'auto'}
                       />
                     </div>
                     <div class='p-3'>
