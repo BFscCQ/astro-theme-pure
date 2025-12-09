@@ -1,9 +1,8 @@
 ---
 import data from 'public/books.json'
-import { Footer, Header, ThemeProvider } from 'astro-pure/components/basic'
 import { TOC, BackToTop } from 'astro-pure/components/pages'
 import { Icon } from 'astro-pure/user'
-import BaseHead from '@/components/BaseHead.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
 import config from '@/site-config'
 
 import '@/assets/styles/global.css'
@@ -34,204 +33,182 @@ const headings = [
 ]
 ---
 
-<html lang={config.locale.lang}>
-  <head>
-    <BaseHead description={config.description} title='阅读' />
-    <ThemeProvider />
-  </head>
-
-  <body class='bg-background text-foreground min-h-screen flex flex-col'>
-    {/* Header */}
-    <div class='w-full flex justify-center'>
-      <div class='w-full max-w-[70rem] px-4 sm:px-7 lg:px-10'>
-        <Header />
-      </div>
-    </div>
-
-    {/* Full-width main content */}
-    <main class='flex-1 w-full px-4 sm:px-8 lg:px-16 py-8'>
-      <div class='flex gap-8 max-w-[90rem] mx-auto'>
-        {/* Sidebar - 左侧 */}
-        <aside
-          class='hidden lg:block w-48 shrink-0 sticky top-20 self-start'
-          style='max-height: calc(100vh - 7rem);'
-          id='sidebar'
-        >
-          <TOC headings={headings} />
-        </aside>
-
-        {/* Mobile sidebar */}
-        <aside
-          class='lg:hidden fixed top-20 start-4 z-40 w-48 bg-muted border rounded-xl px-4 py-3 overflow-y-auto'
-          style='max-height: calc(100vh - 7rem); display: none;'
-          id='sidebar-mobile'
-        >
-          <TOC headings={headings} />
-        </aside>
-        <div
-          id='sidebar-shade'
-          class='fixed top-0 start-0 w-full h-full lg:hidden'
-          style='display:none;background-color:#00000091;z-index:31'
-        >
-        </div>
-
-        {/* Main content */}
-        <div class='flex-1 min-w-0'>
-          {/* Page header */}
-          <div id='content-header' class='animate mb-8'>
-            <h1 class='text-3xl font-bold sm:text-4xl'>阅读</h1>
-            <p class='mt-2 text-muted-foreground'>这里记录我的阅读历程，包括小说、书籍等。</p>
-          </div>
-
-          <article id='content'>
-            {/* 正在阅读 */}
-            {reading.length > 0 && (
-              <>
-                <h2 id='reading' class='text-2xl font-semibold mb-6'>正在阅读</h2>
-                <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
-                  {
-                    reading.map((book, index) => (
-                      <a href={book.link} target='_blank' rel='noopener noreferrer' class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
-                        <div class='overflow-hidden' style='aspect-ratio: 3 / 4;'>
-                          <img
-                            src={book.image}
-                            alt={book.name}
-                            class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
-                            loading={index < 5 ? 'eager' : 'lazy'}
-                            fetchpriority={index < 3 ? 'high' : 'auto'}
-                          />
-                        </div>
-                        <div class='p-3'>
-                          <h3 class='text-base font-bold leading-tight'>{book.name}</h3>
-                          <div class='mt-1 flex items-center justify-between'>
-                            <span class='text-xs text-muted-foreground'>{book.read_date || '未记录'}</span>
-                            <span class='text-xs'>{book.rating}</span>
-                          </div>
-                          <p class='mt-2 text-xs text-muted-foreground'>{book.description}</p>
-                        </div>
-                      </a>
-                    ))
-                  }
-                </div>
-              </>
-            )}
-
-            {/* 已读完 */}
-            {read.length > 0 && (
-              <>
-                <h2 id='read' class='text-2xl font-semibold mb-6'>已读完</h2>
-                <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
-                  {
-                    read.map((book, index) => (
-                      <a href={book.link} target='_blank' rel='noopener noreferrer' class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
-                        <div class='overflow-hidden' style='aspect-ratio: 3 / 4;'>
-                          <img
-                            src={book.image}
-                            alt={book.name}
-                            class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
-                            loading={index < 10 ? 'eager' : 'lazy'}
-                            fetchpriority={index < 5 ? 'high' : 'auto'}
-                          />
-                        </div>
-                        <div class='p-3'>
-                          <h3 class='text-base font-bold leading-tight'>{book.name}</h3>
-                          <div class='mt-1 flex items-center justify-between'>
-                            <span class='text-xs text-muted-foreground'>{book.read_date || '未记录'}</span>
-                            <span class='text-xs'>{book.rating}</span>
-                          </div>
-                          <p class='mt-2 text-xs text-muted-foreground'>{book.description}</p>
-                        </div>
-                      </a>
-                    ))
-                  }
-                </div>
-              </>
-            )}
-            {/* 暂停阅读 */}
-            {waiting.length > 0 && (
-              <>
-                <h2 id='waiting' class='text-2xl font-semibold mb-6'>暂停阅读</h2>
-                <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
-                  {
-                    waiting.map((book) => (
-                      <a href={book.link} target='_blank' rel='noopener noreferrer' class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
-                        <div class='overflow-hidden' style='aspect-ratio: 3 / 4;'>
-                          <img
-                            src={book.image}
-                            alt={book.name}
-                            class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
-                            loading='lazy'
-                          />
-                        </div>
-                        <div class='p-3'>
-                          <h3 class='text-base font-bold leading-tight'>{book.name}</h3>
-                          <div class='mt-1 flex items-center justify-between'>
-                            <span class='text-xs text-muted-foreground'>{book.read_date || '未记录'}</span>
-                            <span class='text-xs'>{book.rating}</span>
-                          </div>
-                          <p class='mt-2 text-xs text-muted-foreground'>{book.description}</p>
-                        </div>
-                      </a>
-                    ))
-                  }
-                </div>
-              </>
-            )}
-
-            {/* 不推荐 */}
-            {notRecommended.length > 0 && (
-              <>
-                <h2 id='not-recommended' class='text-2xl font-semibold mb-6'>不推荐</h2>
-                <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'>
-                  {
-                    notRecommended.map((book) => (
-                      <a href={book.link} target='_blank' rel='noopener noreferrer' class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
-                        <div class='overflow-hidden' style='aspect-ratio: 3 / 4;'>
-                          <img
-                            src={book.image}
-                            alt={book.name}
-                            class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
-                            loading='lazy'
-                          />
-                        </div>
-                        <div class='p-3'>
-                          <h3 class='text-base font-bold leading-tight'>{book.name}</h3>
-                          <div class='mt-1 flex items-center justify-between'>
-                            <span class='text-xs text-muted-foreground'>{book.read_date || '未记录'}</span>
-                            <span class='text-xs'>{book.rating}</span>
-                          </div>
-                          <p class='mt-2 text-xs text-muted-foreground'>{book.description}</p>
-                        </div>
-                      </a>
-                    ))
-                  }
-                </div>
-              </>
-            )}
-          </article>
-        </div>
-      </div>
-    </main>
-
-    {/* Footer */}
-    <div class='w-full flex justify-center'>
-      <div class='w-full max-w-[70rem] px-4 sm:px-7 lg:px-10'>
-        <Footer />
-      </div>
-    </div>
-
-    <BackToTop header='content-header' content='content'>
-      <button
-        slot='other-icons'
-        aria-label='Toggle sidebar'
-        class='size-10 flex items-center justify-center rounded-full border-2 border-transparent bg-muted text-muted-foreground duration-300 hover:border-border/75 lg:hidden sm:size-12'
-        id='sidebar-btn'
+<BaseLayout meta={{ title: '阅读', description: config.description }} wide={true}>
+  <main class='flex-1 w-full py-8'>
+    <div class='flex gap-8 mx-auto'>
+      {/* Sidebar - 左侧 */}
+      <aside
+        class='hidden lg:block w-48 shrink-0 sticky top-20 self-start'
+        style='max-height: calc(100vh - 7rem);'
+        id='sidebar'
       >
-        <Icon name='list' />
-      </button>
-    </BackToTop>
-  </body>
-</html>
+        <TOC headings={headings} />
+      </aside>
+
+      {/* Mobile sidebar */}
+      <aside
+        class='lg:hidden fixed top-20 start-4 z-40 w-48 bg-muted border rounded-xl px-4 py-3 overflow-y-auto'
+        style='max-height: calc(100vh - 7rem); display: none;'
+        id='sidebar-mobile'
+      >
+        <TOC headings={headings} />
+      </aside>
+      <div
+        id='sidebar-shade'
+        class='fixed top-0 start-0 w-full h-full lg:hidden'
+        style='display:none;background-color:#00000091;z-index:31'
+      >
+      </div>
+
+      {/* Main content */}
+      <div class='flex-1 min-w-0'>
+        {/* Page header */}
+        <div id='content-header' class='animate mb-8'>
+          <h1 class='text-3xl font-bold sm:text-4xl'>阅读</h1>
+          <p class='mt-2 text-muted-foreground'>这里记录我的阅读历程，包括小说、书籍等。</p>
+        </div>
+
+        <article id='content'>
+          {/* 正在阅读 */}
+          {reading.length > 0 && (
+            <>
+              <h2 id='reading' class='text-2xl font-semibold mb-6'>正在阅读</h2>
+              <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
+                {
+                  reading.map((book, index) => (
+                    <a href={book.link} target='_blank' rel='noopener noreferrer' class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
+                      <div class='overflow-hidden' style='aspect-ratio: 3 / 4;'>
+                        <img
+                          src={book.image}
+                          alt={book.name}
+                          class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                          loading={index < 5 ? 'eager' : 'lazy'}
+                          fetchpriority={index < 3 ? 'high' : 'auto'}
+                        />
+                      </div>
+                      <div class='p-3'>
+                        <h3 class='text-base font-bold leading-tight'>{book.name}</h3>
+                        <div class='mt-1 flex items-center justify-between'>
+                          <span class='text-xs text-muted-foreground'>{book.read_date || '未记录'}</span>
+                          <span class='text-xs'>{book.rating}</span>
+                        </div>
+                        <p class='mt-2 text-xs text-muted-foreground'>{book.description}</p>
+                      </div>
+                    </a>
+                  ))
+                }
+              </div>
+            </>
+          )}
+
+          {/* 已读完 */}
+          {read.length > 0 && (
+            <>
+              <h2 id='read' class='text-2xl font-semibold mb-6'>已读完</h2>
+              <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
+                {
+                  read.map((book, index) => (
+                    <a href={book.link} target='_blank' rel='noopener noreferrer' class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
+                      <div class='overflow-hidden' style='aspect-ratio: 3 / 4;'>
+                        <img
+                          src={book.image}
+                          alt={book.name}
+                          class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                          loading={index < 10 ? 'eager' : 'lazy'}
+                          fetchpriority={index < 5 ? 'high' : 'auto'}
+                        />
+                      </div>
+                      <div class='p-3'>
+                        <h3 class='text-base font-bold leading-tight'>{book.name}</h3>
+                        <div class='mt-1 flex items-center justify-between'>
+                          <span class='text-xs text-muted-foreground'>{book.read_date || '未记录'}</span>
+                          <span class='text-xs'>{book.rating}</span>
+                        </div>
+                        <p class='mt-2 text-xs text-muted-foreground'>{book.description}</p>
+                      </div>
+                    </a>
+                  ))
+                }
+              </div>
+            </>
+          )}
+          {/* 暂停阅读 */}
+          {waiting.length > 0 && (
+            <>
+              <h2 id='waiting' class='text-2xl font-semibold mb-6'>暂停阅读</h2>
+              <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
+                {
+                  waiting.map((book) => (
+                    <a href={book.link} target='_blank' rel='noopener noreferrer' class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
+                      <div class='overflow-hidden' style='aspect-ratio: 3 / 4;'>
+                        <img
+                          src={book.image}
+                          alt={book.name}
+                          class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                          loading='lazy'
+                        />
+                      </div>
+                      <div class='p-3'>
+                        <h3 class='text-base font-bold leading-tight'>{book.name}</h3>
+                        <div class='mt-1 flex items-center justify-between'>
+                          <span class='text-xs text-muted-foreground'>{book.read_date || '未记录'}</span>
+                          <span class='text-xs'>{book.rating}</span>
+                        </div>
+                        <p class='mt-2 text-xs text-muted-foreground'>{book.description}</p>
+                      </div>
+                    </a>
+                  ))
+                }
+              </div>
+            </>
+          )}
+
+          {/* 不推荐 */}
+          {notRecommended.length > 0 && (
+            <>
+              <h2 id='not-recommended' class='text-2xl font-semibold mb-6'>不推荐</h2>
+              <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'>
+                {
+                  notRecommended.map((book) => (
+                    <a href={book.link} target='_blank' rel='noopener noreferrer' class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
+                      <div class='overflow-hidden' style='aspect-ratio: 3 / 4;'>
+                        <img
+                          src={book.image}
+                          alt={book.name}
+                          class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                          loading='lazy'
+                        />
+                      </div>
+                      <div class='p-3'>
+                        <h3 class='text-base font-bold leading-tight'>{book.name}</h3>
+                        <div class='mt-1 flex items-center justify-between'>
+                          <span class='text-xs text-muted-foreground'>{book.read_date || '未记录'}</span>
+                          <span class='text-xs'>{book.rating}</span>
+                        </div>
+                        <p class='mt-2 text-xs text-muted-foreground'>{book.description}</p>
+                      </div>
+                    </a>
+                  ))
+                }
+              </div>
+            </>
+          )}
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <BackToTop header='content-header' content='content'>
+    <button
+      slot='other-icons'
+      aria-label='Toggle sidebar'
+      class='size-10 flex items-center justify-center rounded-full border-2 border-transparent bg-muted text-muted-foreground duration-300 hover:border-border/75 lg:hidden sm:size-12'
+      id='sidebar-btn'
+    >
+      <Icon name='list' />
+    </button>
+  </BackToTop>
+</BaseLayout>
 
 <script>
   const sidebarButton = document.getElementById('sidebar-btn')

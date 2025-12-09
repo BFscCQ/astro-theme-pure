@@ -49,7 +49,7 @@ export const theme: ThemeUserConfig = {
   /** Configure the header of your site. */
   header: {
     menu: [
-      { title: '博文', link: '/blog' },
+      { title: '文章', link: '/blog' },
       { title: '文档', link: '/docs' },
       // { title: '项目', link: '/projects' },
       { title: '电影', link: '/movies' },
@@ -167,19 +167,20 @@ export const integ: IntegrationUserConfig = {
   waline: {
     enable: true,
     // Server service link
-    server: 'https://astro-theme-pure-waline.arthals.ink/',
+    server: 'https://waline.shijie.icu/',
     // Refer https://waline.js.org/en/guide/features/emoji.html
-    emoji: ['bmoji', 'weibo'],
+    emoji: ['https://unpkg.com/@waline/emojis@1.4.0/qq'],
     // Refer https://waline.js.org/en/reference/client/props.html
     additionalConfigs: {
-      // search: false,
+      emoji: false,
+      search: false,
       pageview: true,
       comment: true,
       locale: {
         reaction0: 'Like',
         placeholder: 'Welcome to comment. (Email to receive replies. Login is unnecessary)'
       },
-      imageUploader: false
+      imageUploader: () => Promise.reject(new Error('Image upload disabled'))
     }
   }
 }
