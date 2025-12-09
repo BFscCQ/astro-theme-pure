@@ -1,0 +1,92 @@
+---
+interface Props {
+  movies: any[]
+  tvShows: any[]
+  anime: any[]
+}
+
+const { movies, tvShows, anime } = Astro.props
+
+// Calculate statistics
+const totalMovies = movies.length
+const totalTVShows = tvShows.length
+const totalAnime = anime.length
+const totalWatched = totalMovies + totalTVShows + totalAnime
+
+// Calculate rating distribution
+const allItems = [...movies, ...tvShows, ...anime]
+const ratingCounts = {
+  '5星': 0,
+  '4星': 0,
+  '3星': 0,
+  '2星': 0,
+  '1星': 0
+}
+
+allItems.forEach((item) => {
+  if (item.rating) {
+    const starCount = (item.rating.match(/⭐/g) || []).length
+    if (starCount >= 1 && starCount <= 5) {
+      const key = `${starCount}星` as keyof typeof ratingCounts
+      ratingCounts[key]++
+    }
+  }
+})
+
+const maxCount = Math.max(...Object.values(ratingCounts))
+---
+
+<div class='mt-8 border-t pt-8'>
+  <div class='mb-4 flex items-center justify-between'>
+    <h2 class='text-lg font-semibold'>统计</h2>
+    <div class='text-xs text-muted-foreground'>
+      共看过 <span class='font-medium text-foreground'>{totalWatched}</span> 部作品
+    </div>
+  </div>
+  
+  <div class='space-y-4'>
+    {/* Total Counts */}
+    <div class='grid grid-cols-3 gap-2 text-center'>
+      <div class='rounded-lg bg-muted/50 p-2'>
+        <div class='text-xl font-bold'>{totalMovies}</div>
+        <div class='text-xs text-muted-foreground'>电影</div>
+      </div>
+      <div class='rounded-lg bg-muted/50 p-2'>
+        <div class='text-xl font-bold'>{totalTVShows}</div>
+        <div class='text-xs text-muted-foreground'>剧集</div>
+      </div>
+      <div class='rounded-lg bg-muted/50 p-2'>
+        <div class='text-xl font-bold'>{totalAnime}</div>
+        <div class='text-xs text-muted-foreground'>动漫</div>
+      </div>
+    </div>
+
+
+
+    {/* Rating Distribution */}
+    <div class='space-y-2 pt-2'>
+      <h4 class='text-xs font-medium text-muted-foreground'>评分分布</h4>
+      <div class='space-y-1.5'>
+        {
+          Object.entries(ratingCounts).map(([rating, count]) => (
+            <div class='flex items-center gap-2 text-xs'>
+              <div class='w-8 shrink-0 text-right'>{rating}</div>
+              <div class='flex-1'>
+                <div
+                  class='h-2 rounded-full bg-muted'
+                  style={`width: 100%`}
+                >
+                  <div
+                    class='h-full rounded-full bg-primary transition-all duration-500'
+                    style={`width: ${maxCount > 0 ? (count / maxCount) * 100 : 0}%`}
+                  />
+                </div>
+              </div>
+              <div class='w-6 shrink-0 text-right text-muted-foreground'>{count}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</div>

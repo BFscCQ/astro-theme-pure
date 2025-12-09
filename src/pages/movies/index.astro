@@ -4,6 +4,7 @@ import { Footer, Header, ThemeProvider } from 'astro-pure/components/basic'
 import { TOC, BackToTop } from 'astro-pure/components/pages'
 import { Icon } from 'astro-pure/user'
 import BaseHead from '@/components/BaseHead.astro'
+import MovieStats from '@/components/movies/MovieStats.astro'
 import config from '@/site-config'
 
 import '@/assets/styles/global.css'
@@ -113,7 +114,7 @@ const headings = [
 
   <body class='bg-background text-foreground min-h-screen flex flex-col'>
     {/* Header */}
-    <div class='w-full flex justify-center'>
+    <div class='w-full flex justify-center mt-4'>
       <div class='w-full max-w-[70rem] px-4 sm:px-7 lg:px-10'>
         <Header />
       </div>
@@ -129,6 +130,7 @@ const headings = [
           id='sidebar'
         >
           <TOC headings={headings} />
+          <MovieStats {movies} {tvShows} {anime} />
         </aside>
 
         {/* Mobile sidebar */}
@@ -138,6 +140,7 @@ const headings = [
           id='sidebar-mobile'
         >
           <TOC headings={headings} />
+          <MovieStats {movies} {tvShows} {anime} />
         </aside>
         <div
           id='sidebar-shade'

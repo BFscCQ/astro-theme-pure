@@ -19,6 +19,14 @@
   ],
   "played": [
     {
+      "name": "测试数据",
+      "rating": "⭐⭐⭐⭐",
+      "play_date": "2025/12/08",
+      "description": "居然是现代风格场景，光看名字以为是中世纪。地图重复度非常高，流程感觉也不长，战斗手感倒是很好，纯FPS类魂游戏，近战只是添头。",
+      "image": "https://cdn.akamai.steamstatic.com/steam/apps/617290/header.jpg",
+      "link": "https://store.steampowered.com/app/617290"
+    },
+    {
       "name": "遗迹：灰烬重生",
       "rating": "⭐⭐⭐⭐",
       "play_date": "2025/10/07",
