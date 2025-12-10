@@ -26,7 +26,7 @@ const { listening, listened, albums } = data as {
 
 // 动态生成 headings
 const headings = [
-  ...(listening.length > 0 ? [{ depth: 2, slug: 'listening', text: '正在听' }] : []),
+  ...(listening.length > 0 ? [{ depth: 2, slug: 'listening', text: '最近常听' }] : []),
   ...(listened.length > 0 ? [{ depth: 2, slug: 'listened', text: '听过的音乐' }] : []),
   ...(albums.length > 0 ? [{ depth: 2, slug: 'albums', text: '听过的专辑' }] : [])
 ]
@@ -79,7 +79,7 @@ const headings = [
           listening.length > 0 && (
             <>
               <h2 id='listening' class='text-2xl font-semibold mb-6'>
-                正在听
+                最近常听
               </h2>
               <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
                 {listening.map((music) => (
