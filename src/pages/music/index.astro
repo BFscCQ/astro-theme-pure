@@ -1,0 +1,208 @@
+---
+import data from 'public/musics.json'
+import { TOC, BackToTop } from 'astro-pure/components/pages'
+import { Icon } from 'astro-pure/user'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import MusicStats from '@/components/music/MusicStats.astro'
+import config from '@/site-config'
+
+// 类型定义
+interface MusicItem {
+  title: string
+  artist: string
+  rating: string
+  comment: string
+  cover: string
+  link: string
+}
+
+const { listening, listened, albums } = data as {
+  listening: MusicItem[]
+  listened: MusicItem[]
+  albums: MusicItem[]
+}
+
+// 动态生成 headings
+const headings = [
+  ...(listening.length > 0 ? [{ depth: 2, slug: 'listening', text: '正在听' }] : []),
+  ...(listened.length > 0 ? [{ depth: 2, slug: 'listened', text: '听过的音乐' }] : []),
+  ...(albums.length > 0 ? [{ depth: 2, slug: 'albums', text: '听过的专辑' }] : [])
+]
+---
+
+<BaseLayout
+  meta={{ title: '音乐', description: config.description }}
+  wide={true}
+>
+  <div class='grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-10'>
+    {/* Sidebar */}
+    <aside class='lg:block'>
+      <div class='sticky top-24 space-y-8'>
+        <TOC headings={headings} />
+        <MusicStats listening={listening} listened={listened} albums={albums} />
+      </div>
+    </aside>
+
+    {/* Mobile sidebar */}
+    <aside
+      class='lg:hidden fixed top-20 start-4 z-40 w-48 bg-muted border rounded-xl px-4 py-3 overflow-y-auto'
+      style='max-height: calc(100vh - 7rem); display: none;'
+      id='sidebar-mobile'
+    >
+      <TOC headings={headings} />
+      <MusicStats listening={listening} listened={listened} albums={albums} />
+    </aside>
+    <div
+      id='sidebar-shade'
+      class='fixed top-0 start-0 w-full h-full lg:hidden'
+      style='display:none;background-color:#00000091;z-index:31'
+    >
+    </div>
+
+    {/* Main Content */}
+    <div class='min-w-0'>
+      <div id='content-header' class='animate mb-8'>
+        <h1 class='text-3xl font-bold sm:text-4xl'>音乐世界</h1>
+        <p class='mt-2 text-muted-foreground'>聆听触动心灵的声音</p>
+      </div>
+
+      <article id='content'>
+        {/* Listening */}
+        {listening.length > 0 && (
+          <>
+            <h2 id='listening' class='text-2xl font-semibold mb-6'>正在听</h2>
+            <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
+              {listening.map((music) => (
+                <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
+                  <a href={music.link || '#'} target='_blank' class='block overflow-hidden' style='aspect-ratio: 1;'>
+                    <img
+                      src={music.cover}
+                      alt={music.title}
+                      class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                      loading='lazy'
+                    />
+                  </a>
+                  <div class='p-3'>
+                    <a href={music.link || '#'} target='_blank' class='hover:underline'>
+                      <h3 class='text-base font-bold leading-tight truncate'>{music.title}</h3>
+                    </a>
+                    <div class='mt-1 flex items-center justify-between'>
+                      <span class='text-xs text-muted-foreground truncate max-w-[60%]'>{music.artist}</span>
+                      <span class='text-xs'>{music.rating}</span>
+                    </div>
+                    {music.comment && (
+                      <p class='mt-3 text-sm text-muted-foreground line-clamp-2'>{music.comment}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* Listened */}
+        {listened.length > 0 && (
+          <>
+            <h2 id='listened' class='text-2xl font-semibold mb-6'>听过的音乐</h2>
+            <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
+              {listened.map((music) => (
+                <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
+                  <a href={music.link || '#'} target='_blank' class='block overflow-hidden' style='aspect-ratio: 1;'>
+                    <img
+                      src={music.cover}
+                      alt={music.title}
+                      class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                      loading='lazy'
+                    />
+                  </a>
+                  <div class='p-3'>
+                    <a href={music.link || '#'} target='_blank' class='hover:underline'>
+                      <h3 class='text-base font-bold leading-tight truncate'>{music.title}</h3>
+                    </a>
+                    <div class='mt-1 flex items-center justify-between'>
+                      <span class='text-xs text-muted-foreground truncate max-w-[60%]'>{music.artist}</span>
+                      <span class='text-xs'>{music.rating}</span>
+                    </div>
+                    {music.comment && (
+                      <p class='mt-3 text-sm text-muted-foreground line-clamp-2'>{music.comment}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+
+        {/* Albums */}
+        {albums.length > 0 && (
+          <>
+            <h2 id='albums' class='text-2xl font-semibold mb-6'>听过的专辑</h2>
+            <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
+              {albums.map((music) => (
+                <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
+                  <a href={music.link || '#'} target='_blank' class='block overflow-hidden' style='aspect-ratio: 1;'>
+                    <img
+                      src={music.cover}
+                      alt={music.title}
+                      class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                      loading='lazy'
+                    />
+                  </a>
+                  <div class='p-3'>
+                    <a href={music.link || '#'} target='_blank' class='hover:underline'>
+                      <h3 class='text-base font-bold leading-tight truncate'>{music.title}</h3>
+                    </a>
+                    <div class='mt-1 flex items-center justify-between'>
+                      <span class='text-xs text-muted-foreground truncate max-w-[60%]'>{music.artist}</span>
+                      <span class='text-xs'>{music.rating}</span>
+                    </div>
+                    {music.comment && (
+                      <p class='mt-3 text-sm text-muted-foreground line-clamp-2'>{music.comment}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </article>
+    </div>
+  </div>
+
+  <BackToTop header='content-header' content='content'>
+    <button
+      slot='other-icons'
+      aria-label='Toggle sidebar'
+      class='size-10 flex items-center justify-center rounded-full border-2 border-transparent bg-muted text-muted-foreground duration-300 hover:border-border/75 lg:hidden sm:size-12'
+      id='sidebar-btn'
+    >
+      <Icon name='list' />
+    </button>
+  </BackToTop>
+</BaseLayout>
+
+<script>
+  const sidebarButton = document.getElementById('sidebar-btn')
+  const sidebar = document.getElementById('sidebar-mobile')
+  const sidebarShade = document.getElementById('sidebar-shade') as HTMLElement
+
+  if (sidebarShade) {
+    sidebarShade.addEventListener('click', () => {
+      toggleSidebar()
+    })
+  }
+
+  function toggleSidebar() {
+    if (sidebar && sidebar.style.display !== 'none') {
+      sidebar.style.display = 'none'
+      sidebarShade.style.display = 'none'
+    } else if (sidebar) {
+      sidebar.style.display = 'block'
+      sidebarShade.style.display = 'block'
+    }
+  }
+
+  sidebarButton?.addEventListener('click', () => {
+    toggleSidebar()
+  })
+</script>

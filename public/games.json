@@ -1,10 +1,24 @@
 {
   "playing": [
     {
+      "name": "三角洲行动",
+      "rating": "⭐⭐⭐⭐",
+      "description": "国产网游最好的一点就是不需要加速器。在最初的几个赛季爆率没有调整还是很好玩的，现在要和策划对抗才能有有良好的的体验。",
+      "image": "https://cdn.akamai.steamstatic.com/steam/apps/2507950/header.jpg",
+      "link": "https://df.qq.com/"
+    },
+    {
+      "name": "暗区突围",
+      "rating": "⭐⭐⭐⭐",
+      "description": "",
+      "image": "https://cdn.akamai.steamstatic.com/steam/apps/2073620/header.jpg",
+      "link": "https://store.steampowered.com/app/2073620"
+    },
+    {
       "name": "逃离鸭科夫",
       "rating": "⭐⭐⭐⭐",
       "play_date": "2025/10/20",
-      "description": "俯视角",
+      "description": "俯视角卡通版搜打撤，设计的很有意思，藏身处的设计也不错",
       "image": "https://cdn.akamai.steamstatic.com/steam/apps/3167020/header.jpg",
       "link": "https://store.steampowered.com/app/3167020"
     },
@@ -65,13 +79,6 @@
       "description": "全收集差了一个跳蚤忆痕，设计很精巧、游戏很精美，但是地图、BOSS、跳跳乐设计的很恶意。",
       "image": "https://cdn.akamai.steamstatic.com/steam/apps/1030300/header.jpg",
       "link": "https://store.steampowered.com/app/1030300"
-    },
-    {
-      "name": "三角洲行动",
-      "rating": "⭐⭐⭐⭐",
-      "description": "国产网游最好的一点就是不需要加速器。在最初的几个赛季爆率没有调整还是很好玩的，现在要和策划对抗才能有有良好的的体验。",
-      "image": "https://cdn.akamai.steamstatic.com/steam/apps/2507950/header.jpg",
-      "link": "https://df.qq.com/"
     },
     {
       "name": "师父",

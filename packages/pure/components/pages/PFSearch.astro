@@ -26,7 +26,7 @@ import '@pagefind/default-ui/css/ui.css'
       const formatURL = (path: string) => path.replace(/(.)\/(#.*)?$/, '$1$2')
 
       window.addEventListener('DOMContentLoaded', () => {
-        // if (import.meta.env.DEV) return
+        if (import.meta.env.DEV) return
         const onIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 1))
         onIdle(async () => {
           // @ts-expect-error — Missing types for @pagefind/default-ui package.

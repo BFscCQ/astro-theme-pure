@@ -12,11 +12,15 @@ import '@/assets/styles/app.css'
 interface Props {
   meta: SiteMeta
   highlightColor?: string
+  wide?: boolean
+  staticHeader?: boolean
 }
 
 const {
   meta: { articleDate, description = config.description, ogImage, title },
   highlightColor,
+  wide = false,
+  staticHeader = false,
   ...props
 } = Astro.props
 ---
@@ -38,10 +42,21 @@ const {
       )
     }
     <div
-      class='w-full max-w-[70rem] px-4 sm:px-7 lg:px-10 min-h-[100dvh] flex flex-col justify-between'
+      class:list={[
+        'w-full px-4 sm:px-7 lg:px-10 min-h-[100dvh] flex flex-col justify-between',
+        wide ? 'max-w-[90rem]' : 'max-w-[70rem]'
+      ]}
     >
-      <Header />
-      <div class='flex-1 w-full'>
+      {
+        staticHeader ? (
+          <div>
+            <Header />
+          </div>
+        ) : (
+          <Header />
+        )
+      }
+      <div class='flex-1 w-full' data-pagefind-body>
         <slot />
       </div>
       <Footer />

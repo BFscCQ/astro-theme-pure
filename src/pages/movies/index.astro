@@ -1,14 +1,10 @@
 ---
 import data from 'public/movies.json'
-import { Footer, Header, ThemeProvider } from 'astro-pure/components/basic'
 import { TOC, BackToTop } from 'astro-pure/components/pages'
 import { Icon } from 'astro-pure/user'
-import BaseHead from '@/components/BaseHead.astro'
+import BaseLayout from '@/layouts/BaseLayout.astro'
 import MovieStats from '@/components/movies/MovieStats.astro'
 import config from '@/site-config'
-
-import '@/assets/styles/global.css'
-import '@/assets/styles/app.css'
 
 // 类型定义
 interface WatchedItem {
@@ -106,190 +102,166 @@ const headings = [
 ]
 ---
 
-<html lang={config.locale.lang}>
-  <head>
-    <BaseHead description={config.description} title='Movies' />
-    <ThemeProvider />
-  </head>
-
-  <body class='bg-background text-foreground min-h-screen flex flex-col'>
-    {/* Header */}
-    <div class='w-full flex justify-center mt-4'>
-      <div class='w-full max-w-[70rem] px-4 sm:px-7 lg:px-10'>
-        <Header />
+<BaseLayout
+  meta={{ title: 'Movies', description: config.description }}
+  wide={true}
+>
+  <div class='grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-10'>
+    {/* Sidebar */}
+    <aside class='lg:block'>
+      <div class='sticky top-24 space-y-8'>
+        <TOC headings={headings} />
+        <MovieStats {movies} {tvShows} {anime} />
       </div>
+    </aside>
+
+    {/* Mobile sidebar */}
+    <aside
+      class='lg:hidden fixed top-20 start-4 z-40 w-48 bg-muted border rounded-xl px-4 py-3 overflow-y-auto'
+      style='max-height: calc(100vh - 7rem); display: none;'
+      id='sidebar-mobile'
+    >
+      <TOC headings={headings} />
+      <MovieStats {movies} {tvShows} {anime} />
+    </aside>
+    <div
+      id='sidebar-shade'
+      class='fixed top-0 start-0 w-full h-full lg:hidden'
+      style='display:none;background-color:#00000091;z-index:31'
+    >
     </div>
 
-    {/* Full-width main content */}
-    <main class='flex-1 w-full px-4 sm:px-8 lg:px-16 py-8'>
-      <div class='flex gap-8 max-w-[90rem] mx-auto'>
-        {/* Sidebar - 左侧 */}
-        <aside
-          class='hidden lg:block w-48 shrink-0 sticky top-20 self-start'
-          style='max-height: calc(100vh - 7rem);'
-          id='sidebar'
-        >
-          <TOC headings={headings} />
-          <MovieStats {movies} {tvShows} {anime} />
-        </aside>
+    {/* Main Content */}
+    <div class='min-w-0'>
+      <div id='content-header' class='animate mb-8'>
+        <h1 class='text-3xl font-bold sm:text-4xl'>影视</h1>
+        <p class='mt-2 text-muted-foreground'>这里记录我的观影历程，包括电影、剧集和动漫。</p>
+      </div>
 
-        {/* Mobile sidebar */}
-        <aside
-          class='lg:hidden fixed top-20 start-4 z-40 w-48 bg-muted border rounded-xl px-4 py-3 overflow-y-auto'
-          style='max-height: calc(100vh - 7rem); display: none;'
-          id='sidebar-mobile'
-        >
-          <TOC headings={headings} />
-          <MovieStats {movies} {tvShows} {anime} />
-        </aside>
-        <div
-          id='sidebar-shade'
-          class='fixed top-0 start-0 w-full h-full lg:hidden'
-          style='display:none;background-color:#00000091;z-index:31'
-        >
-        </div>
-
-        {/* Main content */}
-        <div class='flex-1 min-w-0'>
-          {/* Page header */}
-          <div id='content-header' class='animate mb-8'>
-            <h1 class='text-3xl font-bold sm:text-4xl'>影视</h1>
-            <p class='mt-2 text-muted-foreground'>这里记录我的观影历程，包括电影、剧集和动漫。</p>
-          </div>
-
-          <article id='content'>
-            {/* Want to watch */}
-            {wantToWatch.length > 0 && (
-              <>
-                <h2 id='want-to-watch' class='text-2xl font-semibold mb-6'>想看</h2>
-                <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
-                  {
-                    wantToWatch.map((item) => (
-                      <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
-                        <div class='overflow-hidden' style='aspect-ratio: 486 / 730;'>
-                          <img
-                            src={item.cover}
-                            alt={item.title}
-                            class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
-                          />
-                        </div>
-                        <div class='p-3'>
-                          <h3 class='text-base font-bold leading-tight'>{item.title}</h3>
-                          <p class='mt-3 text-sm text-muted-foreground'>{item.reason}</p>
-                        </div>
-                      </div>
-                    ))
-                  }
-                </div>
-              </>
-            )}
-
-            {/* Movies */}
-            <h2 id='movies' class='text-2xl font-semibold mb-6'>电影</h2>
+      <article id='content'>
+        {/* Want to watch */}
+        {wantToWatch.length > 0 && (
+          <>
+            <h2 id='want-to-watch' class='text-2xl font-semibold mb-6'>想看</h2>
             <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
               {
-                movies.map((movie, index) => (
-                  <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
-                    <div class='overflow-hidden' style='aspect-ratio: 486 / 730;'>
-                      <img
-                        src={movie.cover}
-                        alt={movie.title}
-                        class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
-                        loading={index < 10 ? 'eager' : 'lazy'}
-                        fetchpriority={index < 5 ? 'high' : 'auto'}
-                      />
-                    </div>
-                    <div class='p-3'>
-                      <h3 class='text-base font-bold leading-tight'>{movie.title}</h3>
-                      <div class='mt-1 flex items-center justify-between'>
-                        <span class='text-xs text-muted-foreground'>{movie.watchDate || '未记录'}</span>
-                        <span class='text-xs'>{movie.rating}</span>
-                      </div>
-                      <p class='mt-3 text-sm text-muted-foreground'>{movie.comment}</p>
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
-
-            {/* TV Shows */}
-            <h2 id='tv-shows' class='text-2xl font-semibold mb-6'>剧集</h2>
-            <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
-              {
-                tvShows.map((show, index) => (
-                  <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
-                    <div class='overflow-hidden' style='aspect-ratio: 486 / 730;'>
-                      <img
-                        src={show.cover}
-                        alt={show.title}
-                        class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
-                        loading={index < 5 ? 'eager' : 'lazy'}
-                      />
-                    </div>
-                    <div class='p-3'>
-                      <h3 class='text-base font-bold leading-tight'>{show.title}</h3>
-                      <div class='mt-1 flex items-center justify-between'>
-                        <span class='text-xs text-muted-foreground'>{show.watchDate || '未记录'}</span>
-                        <span class='text-xs'>{show.rating}</span>
-                      </div>
-                      <p class='mt-3 text-sm text-muted-foreground'>{show.comment}</p>
-                    </div>
-                  </div>
-                ))
-              }
-            </div>
-
-            {/* Anime */}
-            <h2 id='anime' class='text-2xl font-semibold mb-6'>动漫</h2>
-            <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'>
-              {
-                anime.map((item, index) => (
+                wantToWatch.map((item) => (
                   <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
                     <div class='overflow-hidden' style='aspect-ratio: 486 / 730;'>
                       <img
                         src={item.cover}
                         alt={item.title}
                         class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
-                        loading={index < 5 ? 'eager' : 'lazy'}
-                        fetchpriority={index === 0 ? 'high' : 'auto'}
                       />
                     </div>
                     <div class='p-3'>
                       <h3 class='text-base font-bold leading-tight'>{item.title}</h3>
-                      <div class='mt-1 flex items-center justify-between'>
-                        <span class='text-xs text-muted-foreground'>{item.watchDate || '未记录'}</span>
-                        <span class='text-xs'>{item.rating}</span>
-                      </div>
-                      <p class='mt-3 text-sm text-muted-foreground'>{item.comment}</p>
+                      <p class='mt-3 text-sm text-muted-foreground'>{item.reason}</p>
                     </div>
                   </div>
                 ))
               }
             </div>
-          </article>
+          </>
+        )}
+
+        {/* Movies */}
+        <h2 id='movies' class='text-2xl font-semibold mb-6'>电影</h2>
+        <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
+          {
+            movies.map((movie, index) => (
+              <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
+                <div class='overflow-hidden' style='aspect-ratio: 486 / 730;'>
+                  <img
+                    src={movie.cover}
+                    alt={movie.title}
+                    class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                    loading={index < 10 ? 'eager' : 'lazy'}
+                    fetchpriority={index < 5 ? 'high' : 'auto'}
+                  />
+                </div>
+                <div class='p-3'>
+                  <h3 class='text-base font-bold leading-tight'>{movie.title}</h3>
+                  <div class='mt-1 flex items-center justify-between'>
+                    <span class='text-xs text-muted-foreground'>{movie.watchDate || '未记录'}</span>
+                    <span class='text-xs'>{movie.rating}</span>
+                  </div>
+                  <p class='mt-3 text-sm text-muted-foreground'>{movie.comment}</p>
+                </div>
+              </div>
+            ))
+          }
         </div>
-      </div>
-    </main>
 
-    {/* Footer */}
-    <div class='w-full flex justify-center'>
-      <div class='w-full max-w-[70rem] px-4 sm:px-7 lg:px-10'>
-        <Footer />
-      </div>
+        {/* TV Shows */}
+        <h2 id='tv-shows' class='text-2xl font-semibold mb-6'>剧集</h2>
+        <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
+          {
+            tvShows.map((show, index) => (
+              <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
+                <div class='overflow-hidden' style='aspect-ratio: 486 / 730;'>
+                  <img
+                    src={show.cover}
+                    alt={show.title}
+                    class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                    loading={index < 5 ? 'eager' : 'lazy'}
+                  />
+                </div>
+                <div class='p-3'>
+                  <h3 class='text-base font-bold leading-tight'>{show.title}</h3>
+                  <div class='mt-1 flex items-center justify-between'>
+                    <span class='text-xs text-muted-foreground'>{show.watchDate || '未记录'}</span>
+                    <span class='text-xs'>{show.rating}</span>
+                  </div>
+                  <p class='mt-3 text-sm text-muted-foreground'>{show.comment}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+
+        {/* Anime */}
+        <h2 id='anime' class='text-2xl font-semibold mb-6'>动漫</h2>
+        <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5'>
+          {
+            anime.map((item, index) => (
+              <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
+                <div class='overflow-hidden' style='aspect-ratio: 486 / 730;'>
+                  <img
+                    src={item.cover}
+                    alt={item.title}
+                    class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                    loading={index < 5 ? 'eager' : 'lazy'}
+                    fetchpriority={index === 0 ? 'high' : 'auto'}
+                  />
+                </div>
+                <div class='p-3'>
+                  <h3 class='text-base font-bold leading-tight'>{item.title}</h3>
+                  <div class='mt-1 flex items-center justify-between'>
+                    <span class='text-xs text-muted-foreground'>{item.watchDate || '未记录'}</span>
+                    <span class='text-xs'>{item.rating}</span>
+                  </div>
+                  <p class='mt-3 text-sm text-muted-foreground'>{item.comment}</p>
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </article>
     </div>
+  </div>
 
-    <BackToTop header='content-header' content='content'>
-      <button
-        slot='other-icons'
-        aria-label='Toggle sidebar'
-        class='size-10 flex items-center justify-center rounded-full border-2 border-transparent bg-muted text-muted-foreground duration-300 hover:border-border/75 lg:hidden sm:size-12'
-        id='sidebar-btn'
-      >
-        <Icon name='list' />
-      </button>
-    </BackToTop>
-  </body>
-</html>
+  <BackToTop header='content-header' content='content'>
+    <button
+      slot='other-icons'
+      aria-label='Toggle sidebar'
+      class='size-10 flex items-center justify-center rounded-full border-2 border-transparent bg-muted text-muted-foreground duration-300 hover:border-border/75 lg:hidden sm:size-12'
+      id='sidebar-btn'
+    >
+      <Icon name='list' />
+    </button>
+  </BackToTop>
+</BaseLayout>
 
 <script>
   const sidebarButton = document.getElementById('sidebar-btn')
@@ -316,4 +288,3 @@ const headings = [
     toggleSidebar()
   })
 </script>
-

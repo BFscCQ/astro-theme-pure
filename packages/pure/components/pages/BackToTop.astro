@@ -71,7 +71,7 @@ const { header: headerName, content: contentName, needPercent = true } = Astro.p
 
       if (!this.articleEl) {
         console.error(`Element with ID ${contentName} not found.`)
-        needPercent = false
+        this.needPercent = false
       }
       // Scroll to top action
       this.scrollBtn.addEventListener('click', this)

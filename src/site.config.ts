@@ -55,6 +55,7 @@ export const theme: ThemeUserConfig = {
       { title: '影视', link: '/movies' },
       { title: '阅读', link: '/books' },
       { title: '游戏', link: '/games' },
+      { title: '音乐', link: '/music' },
       // { title: '友链', link: '/links' },
       // { title: '关于', link: '/about' }
     ]
