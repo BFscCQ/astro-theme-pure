@@ -2,13 +2,6 @@
   "wantToWatch": [],
   "movies": [
     {
-      "title": "测试数据",
-      "watchDate": "2025/12/08",
-      "cover": "https://www.themoviedb.org/t/p/w600_and_h900_face/tnAuB8q5vv7Ax9UAEje5Xi4BXik.jpg",
-      "rating": "⭐⭐⭐⭐⭐",
-      "comment": "周末又看了一遍，超人还是非常帅的，亨利卡维尔简直太符合超人的设定了，对比最近出的超人剧，简直了。"
-    },
-    {
       "title": "扎克·施奈德版正义联盟",
       "watchDate": "2025/09/18",
       "cover": "https://www.themoviedb.org/t/p/w600_and_h900_face/tnAuB8q5vv7Ax9UAEje5Xi4BXik.jpg",
@@ -337,7 +330,7 @@
       "rating": "⭐⭐⭐",
       "comment": "这个应该算作网络电影，硬伤太多，笑点也少，给个及格吧"
     },
-      {
+    {
       "title": "你想活出怎样的人生",
       "watchDate": "2025/01/04",
       "cover": "https://www.themoviedb.org/t/p/w600_and_h900_face/l4aHizcnMzqQrP39caBatIX7IY3.jpg",

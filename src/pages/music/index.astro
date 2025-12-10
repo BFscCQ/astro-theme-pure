@@ -1,8 +1,10 @@
 ---
 import data from 'public/musics.json'
-import { TOC, BackToTop } from 'astro-pure/components/pages'
+
+import { BackToTop, TOC } from 'astro-pure/components/pages'
 import { Icon } from 'astro-pure/user'
 import BaseLayout from '@/layouts/BaseLayout.astro'
+import LastFmCard from '@/components/music/LastFmCard.astro'
 import MusicStats from '@/components/music/MusicStats.astro'
 import config from '@/site-config'
 
@@ -30,16 +32,17 @@ const headings = [
 ]
 ---
 
-<BaseLayout
-  meta={{ title: '音乐', description: config.description }}
-  wide={true}
->
+<BaseLayout meta={{ title: '音乐', description: config.description }} wide={true}>
   <div class='grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-10'>
     {/* Sidebar */}
     <aside class='lg:block'>
       <div class='sticky top-24 space-y-8'>
         <TOC headings={headings} />
         <MusicStats listening={listening} listened={listened} albums={albums} />
+        <div class='mt-8 border-t pt-8'>
+          <h2 class='mb-4 text-lg font-semibold'>正在收听（实时）</h2>
+          <LastFmCard />
+        </div>
       </div>
     </aside>
 
@@ -51,6 +54,10 @@ const headings = [
     >
       <TOC headings={headings} />
       <MusicStats listening={listening} listened={listened} albums={albums} />
+      <div class='mt-8 border-t pt-8'>
+        <h2 class='mb-4 text-lg font-semibold'>正在收听（实时）</h2>
+        <LastFmCard />
+      </div>
     </aside>
     <div
       id='sidebar-shade'
@@ -68,103 +75,136 @@ const headings = [
 
       <article id='content'>
         {/* Listening */}
-        {listening.length > 0 && (
-          <>
-            <h2 id='listening' class='text-2xl font-semibold mb-6'>正在听</h2>
-            <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
-              {listening.map((music) => (
-                <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
-                  <a href={music.link || '#'} target='_blank' class='block overflow-hidden' style='aspect-ratio: 1;'>
-                    <img
-                      src={music.cover}
-                      alt={music.title}
-                      class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
-                      loading='lazy'
-                    />
-                  </a>
-                  <div class='p-3'>
-                    <a href={music.link || '#'} target='_blank' class='hover:underline'>
-                      <h3 class='text-base font-bold leading-tight truncate'>{music.title}</h3>
+        {
+          listening.length > 0 && (
+            <>
+              <h2 id='listening' class='text-2xl font-semibold mb-6'>
+                正在听
+              </h2>
+              <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
+                {listening.map((music) => (
+                  <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
+                    <a
+                      href={music.link || '#'}
+                      target='_blank'
+                      class='block overflow-hidden'
+                      style='aspect-ratio: 1;'
+                    >
+                      <img
+                        src={music.cover || '/favicon/android-chrome-512x512.png'}
+                        alt={music.title}
+                        class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                        loading='lazy'
+                      />
                     </a>
-                    <div class='mt-1 flex items-center justify-between'>
-                      <span class='text-xs text-muted-foreground truncate max-w-[60%]'>{music.artist}</span>
-                      <span class='text-xs'>{music.rating}</span>
+                    <div class='p-3'>
+                      <a href={music.link || '#'} target='_blank' class='hover:underline'>
+                        <h3 class='text-base font-bold leading-tight truncate'>{music.title}</h3>
+                      </a>
+                      <div class='mt-1 flex items-center justify-between'>
+                        <span class='text-xs text-muted-foreground truncate max-w-[60%]'>
+                          {music.artist}
+                        </span>
+                        <span class='text-xs'>{music.rating}</span>
+                      </div>
+                      {music.comment && (
+                        <p class='mt-3 text-sm text-muted-foreground'>{music.comment}</p>
+                      )}
                     </div>
-                    {music.comment && (
-                      <p class='mt-3 text-sm text-muted-foreground line-clamp-2'>{music.comment}</p>
-                    )}
                   </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+                ))}
+              </div>
+            </>
+          )
+        }
 
         {/* Listened */}
-        {listened.length > 0 && (
-          <>
-            <h2 id='listened' class='text-2xl font-semibold mb-6'>听过的音乐</h2>
-            <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
-              {listened.map((music) => (
-                <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
-                  <a href={music.link || '#'} target='_blank' class='block overflow-hidden' style='aspect-ratio: 1;'>
-                    <img
-                      src={music.cover}
-                      alt={music.title}
-                      class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
-                      loading='lazy'
-                    />
-                  </a>
-                  <div class='p-3'>
-                    <a href={music.link || '#'} target='_blank' class='hover:underline'>
-                      <h3 class='text-base font-bold leading-tight truncate'>{music.title}</h3>
+        {
+          listened.length > 0 && (
+            <>
+              <h2 id='listened' class='text-2xl font-semibold mb-6'>
+                听过的音乐
+              </h2>
+              <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
+                {listened.map((music) => (
+                  <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
+                    <a
+                      href={music.link || '#'}
+                      target='_blank'
+                      class='block overflow-hidden'
+                      style='aspect-ratio: 1;'
+                    >
+                      <img
+                        src={music.cover || '/favicon/android-chrome-512x512.png'}
+                        alt={music.title}
+                        class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                        loading='lazy'
+                      />
                     </a>
-                    <div class='mt-1 flex items-center justify-between'>
-                      <span class='text-xs text-muted-foreground truncate max-w-[60%]'>{music.artist}</span>
-                      <span class='text-xs'>{music.rating}</span>
+                    <div class='p-3'>
+                      <a href={music.link || '#'} target='_blank' class='hover:underline'>
+                        <h3 class='text-base font-bold leading-tight truncate'>{music.title}</h3>
+                      </a>
+                      <div class='mt-1 flex items-center justify-between'>
+                        <span class='text-xs text-muted-foreground truncate max-w-[60%]'>
+                          {music.artist}
+                        </span>
+                        <span class='text-xs'>{music.rating}</span>
+                      </div>
+                      {music.comment && (
+                        <p class='mt-3 text-sm text-muted-foreground'>{music.comment}</p>
+                      )}
                     </div>
-                    {music.comment && (
-                      <p class='mt-3 text-sm text-muted-foreground line-clamp-2'>{music.comment}</p>
-                    )}
                   </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+                ))}
+              </div>
+            </>
+          )
+        }
 
         {/* Albums */}
-        {albums.length > 0 && (
-          <>
-            <h2 id='albums' class='text-2xl font-semibold mb-6'>听过的专辑</h2>
-            <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
-              {albums.map((music) => (
-                <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
-                  <a href={music.link || '#'} target='_blank' class='block overflow-hidden' style='aspect-ratio: 1;'>
-                    <img
-                      src={music.cover}
-                      alt={music.title}
-                      class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
-                      loading='lazy'
-                    />
-                  </a>
-                  <div class='p-3'>
-                    <a href={music.link || '#'} target='_blank' class='hover:underline'>
-                      <h3 class='text-base font-bold leading-tight truncate'>{music.title}</h3>
+        {
+          albums.length > 0 && (
+            <>
+              <h2 id='albums' class='text-2xl font-semibold mb-6'>
+                听过的专辑
+              </h2>
+              <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mb-12'>
+                {albums.map((music) => (
+                  <div class='group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'>
+                    <a
+                      href={music.link || '#'}
+                      target='_blank'
+                      class='block overflow-hidden'
+                      style='aspect-ratio: 1;'
+                    >
+                      <img
+                        src={music.cover || '/favicon/android-chrome-512x512.png'}
+                        alt={music.title}
+                        class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                        loading='lazy'
+                      />
                     </a>
-                    <div class='mt-1 flex items-center justify-between'>
-                      <span class='text-xs text-muted-foreground truncate max-w-[60%]'>{music.artist}</span>
-                      <span class='text-xs'>{music.rating}</span>
+                    <div class='p-3'>
+                      <a href={music.link || '#'} target='_blank' class='hover:underline'>
+                        <h3 class='text-base font-bold leading-tight truncate'>{music.title}</h3>
+                      </a>
+                      <div class='mt-1 flex items-center justify-between'>
+                        <span class='text-xs text-muted-foreground truncate max-w-[60%]'>
+                          {music.artist}
+                        </span>
+                        <span class='text-xs'>{music.rating}</span>
+                      </div>
+                      {music.comment && (
+                        <p class='mt-3 text-sm text-muted-foreground'>{music.comment}</p>
+                      )}
                     </div>
-                    {music.comment && (
-                      <p class='mt-3 text-sm text-muted-foreground line-clamp-2'>{music.comment}</p>
-                    )}
                   </div>
-                </div>
-              ))}
-            </div>
-          </>
-        )}
+                ))}
+              </div>
+            </>
+          )
+        }
       </article>
     </div>
   </div>
