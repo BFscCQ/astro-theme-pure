@@ -5,11 +5,11 @@ import Substats from '@/components/about/Substats.astro'
 import ToolSection from '@/components/about/ToolSection.astro'
 
 const headings = [
-  { depth: 2, slug: 'hobbies', text: 'Hobbies' },
-  { depth: 2, slug: 'tools', text: 'Tools' },
-  { depth: 2, slug: 'social-networks', text: 'Social Networks' },
-  { depth: 2, slug: 'gossips', text: 'Gossips' },
-  { depth: 2, slug: 'about-blog', text: 'About Blog' }
+  { depth: 2, slug: '关于我', text: '关于我' }
+  // { depth: 2, slug: 'tools', text: 'Tools' },
+  // { depth: 2, slug: 'social-networks', text: 'Social Networks' },
+  // { depth: 2, slug: 'gossips', text: 'Gossips' },
+  // { depth: 2, slug: 'about-blog', text: 'About Blog' }
 ]
 ---
 
@@ -25,10 +25,10 @@ const headings = [
     人类的赞歌是勇气的赞歌，人类的伟大是勇气的伟大。
     <!-- <Spoiler>这里可以夹私货，比如为什么要演奏春日影！</Spoiler> -->
   </p>
-  <Button title='Sponsor Me' class='w-fit' href='/projects#sponsorship' variant='ahead' />
+  <!-- <Button title='Sponsor Me' class='w-fit' href='/projects#sponsorship' variant='ahead' /> -->
 
   {/* general-talk */}
-  <h2 id='hobbies'>Hobbies</h2>
+  <!-- <h2 id='hobbies'>Hobbies</h2>
   <ul>
     <li>Lorem ipsum dolor sit amet, vidit suscipit at mei.</li>
     <li>
@@ -37,10 +37,10 @@ const headings = [
     </li>
     <li>Ex dicat impedit mel, at eum oratio possit voluptatum.</li>
     <li>Impetus fuisset ullamcorper pri cu, his posse iisque ad, aliquam honestatis usu id.</li>
-  </ul>
+  </ul> -->
 
   {/* tools */}
-  <h2 id='tools'>Tools</h2>
+  <!-- <h2 id='tools'>Tools</h2>
   <p>Current support tools as follow:</p>
   <ToolSection
     class='mb-5'
@@ -155,10 +155,10 @@ const headings = [
         icon: import('@/assets/tools/windows11.svg?raw')
       }
     ]}
-  />
+  /> -->
 
   {/* social-networks */}
-  <h2 id='social-networks'>Social Networks</h2>
+  <!-- <h2 id='social-networks'>Social Networks</h2>
   <p>
     Lorem ipsum dolor sit amet, vidit suscipit at mei. Quem denique mea id. Usu ei regione indoctum
     dissentiunt, cu meliore fuisset mei, vel quod voluptua ne.
@@ -197,9 +197,9 @@ const headings = [
         api: 'steamgames/76561199021278120'
       }
     ]}
-  />
+  /> -->
 
-  {/* gossips */}
+  <!-- {/* gossips */}
   <h2 id='gossips'>Gossips</h2>
   <Collapse title='Lorem ipsum'>
     Lorem ipsum dolor sit amet, vidit suscipit at mei. Quem denique mea id. Usu ei regione indoctum
@@ -227,12 +227,12 @@ const headings = [
         content: 'Began writing website docs'
       }
     ]}
-  />
-  <p>
+  /> -->
+  <!-- <p>
     The smooth operation and personalized customization of website also rely on the resources and
     technical support provided by the following excellent projects/service providers:
-  </p>
-  <ul>
+  </p> -->
+  <!-- <ul>
     <li>Domain: <a href='#' target='_blank'>Vercel</a></li>
     <li>
       Framework & Theme: <a href='https://astro.build/' target='_blank'>Astro</a> + <a
@@ -245,9 +245,9 @@ const headings = [
     </li>
     <li>
       CI/CD: <a href='https://vercel.com/workflow' target='_blank'>Vercel Workflow</a>
-    </li>
-    <!-- <li>Resources speedup: <a href='https://cdn.cbd.int/' target='_blank'>CBD CDN</a></li> -->
-    <li>Comment system: <a href='https://waline.js.org' target='_blank'>Waline</a></li>
+    </li> -->
+  <!-- <li>Resources speedup: <a href='https://cdn.cbd.int/' target='_blank'>CBD CDN</a></li> -->
+  <!-- <li>Comment system: <a href='https://waline.js.org' target='_blank'>Waline</a></li>
     <li>
       Visits: <a href='https://supabase.com/' target='_blank'>Supabase</a> +
       <a href='https://waline.js.org/' target='_blank'>Waline</a>
@@ -257,5 +257,5 @@ const headings = [
         >Substats</a
       >
     </li>
-  </ul>
+  </ul> -->
 </PageLayout>

@@ -31,6 +31,18 @@ const {
   <head>
     <BaseHead {articleDate} {description} {ogImage} {title} />
     <ThemeProvider />
+    <script define:vars={{ fallbackImage: fallbackImage.src }}>
+      document.addEventListener(
+        'error',
+        (e) => {
+          if (e.target instanceof HTMLImageElement) {
+            e.target.src = fallbackImage
+            e.target.onerror = null
+          }
+        },
+        true
+      )
+    </script>
   </head>
 
   <body class='flex justify-center bg-background text-foreground' {...props}>
@@ -76,18 +88,5 @@ const {
         ) !important;
       }
     </style>
-
-    <script define:vars={{ fallbackImage: fallbackImage.src }}>
-      document.addEventListener(
-        'error',
-        (e) => {
-          if (e.target instanceof HTMLImageElement) {
-            e.target.src = fallbackImage
-            e.target.onerror = null
-          }
-        },
-        true
-      )
-    </script>
   </body>
 </html>
