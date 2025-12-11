@@ -1,0 +1,99 @@
+---
+import subscriptions from 'public/subscriptions.json'
+
+const total = subscriptions.length
+const today = new Date()
+
+let active = 0
+let expired = 0
+let expiringSoon = 0
+
+subscriptions.forEach((sub) => {
+  const expiryDate = new Date(sub.expiry)
+  const diffTime = expiryDate.getTime() - today.getTime()
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+
+  if (diffDays < 0) {
+    expired++
+  } else {
+    active++
+    if (diffDays <= 30) {
+      expiringSoon++
+    }
+  }
+})
+
+const maxCount = total
+---
+
+<div class='mt-8 border-t pt-8'>
+  <div class='mb-4 flex items-center justify-between'>
+    <h2 class='text-lg font-semibold'>统计</h2>
+    <div class='text-xs text-muted-foreground'>
+      共订阅 <span class='font-medium text-foreground'>{total}</span> 项服务
+    </div>
+  </div>
+
+  <div class='space-y-4'>
+    {/* Total Counts */}
+    <div class='grid grid-cols-2 gap-2 text-center'>
+      <div class='rounded-lg bg-muted/50 p-2'>
+        <div class='text-xl font-bold'>{active}</div>
+        <div class='text-xs text-muted-foreground'>生效中</div>
+      </div>
+      <div class='rounded-lg bg-muted/50 p-2'>
+        <div class='text-xl font-bold'>{expired}</div>
+        <div class='text-xs text-muted-foreground'>已过期</div>
+      </div>
+    </div>
+
+    {/* Status Distribution */}
+    <div class='space-y-2 pt-2'>
+      <h4 class='text-xs font-medium text-muted-foreground'>状态分布</h4>
+      <div class='space-y-1.5'>
+        {/* Active */}
+        <div class='flex items-center gap-2 text-xs'>
+          <div class='w-12 shrink-0 text-right'>生效中</div>
+          <div class='flex-1'>
+            <div class='h-2 rounded-full bg-muted' style='width: 100%'>
+              <div
+                class='h-full rounded-full bg-emerald-500 transition-all duration-500'
+                style={`width: ${maxCount > 0 ? (active / maxCount) * 100 : 0}%`}
+              >
+              </div>
+            </div>
+          </div>
+          <div class='w-6 shrink-0 text-right text-muted-foreground'>{active}</div>
+        </div>
+        {/* Expiring Soon */}
+        <div class='flex items-center gap-2 text-xs'>
+          <div class='w-12 shrink-0 text-right'>即将过期</div>
+          <div class='flex-1'>
+            <div class='h-2 rounded-full bg-muted' style='width: 100%'>
+              <div
+                class='h-full rounded-full bg-amber-500 transition-all duration-500'
+                style={`width: ${maxCount > 0 ? (expiringSoon / maxCount) * 100 : 0}%`}
+              >
+              </div>
+            </div>
+          </div>
+          <div class='w-6 shrink-0 text-right text-muted-foreground'>{expiringSoon}</div>
+        </div>
+        {/* Expired */}
+        <div class='flex items-center gap-2 text-xs'>
+          <div class='w-12 shrink-0 text-right'>已过期</div>
+          <div class='flex-1'>
+            <div class='h-2 rounded-full bg-muted' style='width: 100%'>
+              <div
+                class='h-full rounded-full bg-muted-foreground transition-all duration-500'
+                style={`width: ${maxCount > 0 ? (expired / maxCount) * 100 : 0}%`}
+              >
+              </div>
+            </div>
+          </div>
+          <div class='w-6 shrink-0 text-right text-muted-foreground'>{expired}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

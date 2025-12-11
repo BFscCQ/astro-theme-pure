@@ -1,0 +1,132 @@
+---
+import subscriptions from 'public/subscriptions.json'
+
+import { BackToTop, TOC } from 'astro-pure/components/pages'
+import { Icon } from 'astro-pure/user'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import SubscriptionCard from '@/components/subscription/SubscriptionCard.astro'
+import SubscriptionStats from '@/components/subscription/SubscriptionStats.astro'
+
+const meta = {
+  title: '订阅',
+  description: '我的订阅服务列表'
+}
+
+// Group subscriptions by category
+const categories = ['影音视听', '编程开发', '通讯', '其他']
+const groupedSubscriptions = categories.reduce(
+  (acc, category) => {
+    const subs = subscriptions.filter((sub) => (sub.category || 'Others') === category)
+    if (subs.length > 0) {
+      acc[category] = subs
+    }
+    return acc
+  },
+  {} as Record<string, typeof subscriptions>
+)
+
+// Generate headings for TOC
+const headings = Object.keys(groupedSubscriptions).map((category) => ({
+  depth: 2,
+  slug: category.toLowerCase().replace(/\s+/g, '-'),
+  text: category
+}))
+---
+
+<BaseLayout meta={meta} wide={true}>
+  <div class='grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-10'>
+    {/* Sidebar */}
+    <aside class='lg:block'>
+      <div class='sticky top-24 space-y-8'>
+        <TOC headings={headings} />
+        <SubscriptionStats />
+      </div>
+    </aside>
+
+    {/* Mobile sidebar */}
+    <aside
+      class='lg:hidden fixed top-20 start-4 z-40 w-48 bg-muted border rounded-xl px-4 py-3 overflow-y-auto'
+      style='max-height: calc(100vh - 7rem); display: none;'
+      id='sidebar-mobile'
+    >
+      <TOC headings={headings} />
+      <SubscriptionStats />
+    </aside>
+    <div
+      id='sidebar-shade'
+      class='fixed top-0 start-0 w-full h-full lg:hidden'
+      style='display:none;background-color:#00000091;z-index:31'
+    >
+    </div>
+
+    {/* Main Content */}
+    <div class='min-w-0'>
+      <div id='content-header' class='animate mb-8'>
+        <h1 class='text-3xl font-bold sm:text-4xl'>订阅服务</h1>
+        <p class='mt-2 text-muted-foreground'>管理和追踪我的数字订阅服务</p>
+      </div>
+
+      <article id='content'>
+        {
+          Object.entries(groupedSubscriptions).map(([category, subs]) => (
+            <>
+              <h2
+                id={category.toLowerCase().replace(/\s+/g, '-')}
+                class='text-2xl font-semibold mb-6'
+              >
+                {category}
+              </h2>
+              <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 mb-12'>
+                {subs.map((sub) => (
+                  <SubscriptionCard
+                    name={sub.name}
+                    description={sub.description}
+                    cover={sub.cover}
+                    expiry={sub.expiry}
+                  />
+                ))}
+              </div>
+            </>
+          ))
+        }
+      </article>
+    </div>
+  </div>
+
+  <BackToTop header='content-header' content='content'>
+    <button
+      slot='other-icons'
+      aria-label='Toggle sidebar'
+      class='size-10 flex items-center justify-center rounded-full border-2 border-transparent bg-muted text-muted-foreground duration-300 hover:border-border/75 lg:hidden sm:size-12'
+      id='sidebar-btn'
+    >
+      <Icon name='list' />
+    </button>
+  </BackToTop>
+</BaseLayout>
+
+<script>
+  const sidebarButton = document.getElementById('sidebar-btn')
+  const sidebar = document.getElementById('sidebar-mobile')
+  const sidebarShade = document.getElementById('sidebar-shade') as HTMLElement
+
+  if (sidebarShade) {
+    sidebarShade.addEventListener('click', () => {
+      toggleSidebar()
+    })
+  }
+
+  function toggleSidebar() {
+    if (sidebar && sidebar.style.display !== 'none') {
+      sidebar.style.display = 'none'
+      sidebarShade.style.display = 'none'
+    } else if (sidebar) {
+      sidebar.style.display = 'block'
+      sidebarShade.style.display = 'block'
+    }
+  }
+
+  sidebarButton?.addEventListener('click', () => {
+    toggleSidebar()
+  })
+</script>

@@ -1,0 +1,84 @@
+---
+import { Icon } from 'astro-pure/user'
+import { cn } from 'astro-pure/utils'
+
+interface Props {
+  name: string
+  description: string
+  cover: string
+  expiry: string
+  class?: string
+}
+
+const { name, description, cover, expiry, class: className } = Astro.props
+
+const expiryDate = new Date(expiry)
+const today = new Date()
+const diffTime = expiryDate.getTime() - today.getTime()
+const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+const isExpired = diffDays < 0
+
+// Determine status color and progress
+let statusColor = 'bg-emerald-500'
+let textColor = 'text-emerald-500'
+let progressPercent = 100
+
+if (isExpired) {
+  statusColor = 'bg-muted-foreground'
+  textColor = 'text-muted-foreground'
+  progressPercent = 0
+} else if (diffDays <= 7) {
+  statusColor = 'bg-red-500'
+  textColor = 'text-red-500'
+  progressPercent = 15
+} else if (diffDays <= 30) {
+  statusColor = 'bg-amber-500'
+  textColor = 'text-amber-500'
+  progressPercent = 40
+}
+---
+
+<div
+  class={cn(
+    'group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md',
+    className
+  )}
+>
+  <div class='overflow-hidden'>
+    <div class='relative overflow-hidden bg-muted' style='aspect-ratio: 16 / 9;'>
+      <img
+        src={cover}
+        alt={name}
+        class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+        loading='lazy'
+      />
+    </div>
+  </div>
+
+  <div class='flex flex-col px-3 pb-3 pt-1.5'>
+    <h3 class='text-base font-bold leading-tight'>{name}</h3>
+
+    <div class='mt-2 flex flex-col gap-2'>
+      <div class='flex items-center justify-between text-xs'>
+        <div class='flex items-center gap-1.5 text-muted-foreground'>
+          <Icon name='calendar' class='size-3.5' />
+          <span>{expiry} 到期</span>
+        </div>
+        <div class={cn('font-medium', textColor)}>
+          {isExpired ? '已过期' : `剩 ${diffDays} 天`}
+        </div>
+      </div>
+
+      {/* Progress Bar Visual */}
+      <div class='h-1 w-full overflow-hidden rounded-full bg-muted'>
+        <div
+          class={cn('h-full transition-all duration-500', statusColor)}
+          style={{ width: `${progressPercent}%` }}
+        >
+        </div>
+      </div>
+    </div>
+
+    <p class='mt-3 text-sm text-muted-foreground'>{description}</p>
+  </div>
+</div>

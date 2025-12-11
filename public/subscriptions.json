@@ -1,0 +1,37 @@
+[
+    {
+        "name": "GiffGaff",
+        "cover": "https://cdn.brandfetch.io/idOClJMjF1/w/960/h/960/theme/dark/icon.jpeg?c=1bxid64Mup7aczewSAYMX&t=1668518534665",
+        "expiry": "2026/01/11",
+        "description": "用于chatgpt、github、域名等服务",
+        "category": "通讯"
+    },
+    {
+        "name": "哔哩哔哩大会员",
+        "cover": "https://cdn.brandfetch.io/idJarLS8mp/w/512/h/464/theme/dark/symbol.png?c=1bxid64Mup7aczewSAYMX&t=1668073271606",
+        "expiry": "2026/04/04",
+        "description": "很少看番，基本只用来看60帧视频",
+        "category": "影音视听"
+    },
+    {
+        "name": "Google AI Pro",
+        "cover": "https://play-lh.googleusercontent.com/B5AENJqFOd91t5cWZLTQbVUm7iDWzYVM1n0Pe2RI_46dhlWMtVAUBioUvy4YMXWdwA",
+        "expiry": "2026/12/01",
+        "description": "网页上的gemini不行，Antigravity非常厉害",
+        "category": "编程开发"
+    },
+    {
+        "name": "Microsoft 365 Developer Program",
+        "cover": "https://res.public.onecdn.static.microsoft/s01-prod/media/microsoft-365/dev-program/HeroBanner_VP5.webp?v={1/string}",
+        "expiry": "2026/02/17",
+        "description": "Microsoft 365开发者，可以免费使用绝大部分的微软产品",
+        "category": "编程开发"
+    },
+    {
+        "name": "华为Petal One套餐",
+        "cover": "",
+        "expiry": "2026/03/10",
+        "description": "华为Petal One套餐，鸿蒙有礼赠送",
+        "category": "影音视听"
+    }
+]

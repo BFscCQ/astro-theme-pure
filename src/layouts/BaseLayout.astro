@@ -9,6 +9,8 @@ import config from '@/site-config'
 import '@/assets/styles/global.css'
 import '@/assets/styles/app.css'
 
+import fallbackImage from '@/assets/404.jpg'
+
 interface Props {
   meta: SiteMeta
   highlightColor?: string
@@ -74,5 +76,18 @@ const {
         ) !important;
       }
     </style>
+
+    <script define:vars={{ fallbackImage: fallbackImage.src }}>
+      document.addEventListener(
+        'error',
+        (e) => {
+          if (e.target instanceof HTMLImageElement) {
+            e.target.src = fallbackImage
+            e.target.onerror = null
+          }
+        },
+        true
+      )
+    </script>
   </body>
 </html>

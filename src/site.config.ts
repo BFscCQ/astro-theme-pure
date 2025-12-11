@@ -56,6 +56,7 @@ export const theme: ThemeUserConfig = {
       { title: '阅读', link: '/books' },
       { title: '游戏', link: '/games' },
       { title: '音乐', link: '/music' },
+      { title: '订阅', link: '/subscription' },
       // { title: '友链', link: '/links' },
       // { title: '关于', link: '/about' }
     ]
