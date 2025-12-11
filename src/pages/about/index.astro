@@ -5,7 +5,7 @@ import Substats from '@/components/about/Substats.astro'
 import ToolSection from '@/components/about/ToolSection.astro'
 import { getCommits } from '@/utils/git'
 
-const commits = getCommits(10)
+const commits = await getCommits(10, 'BFscCQ/astro-theme-pure')
 
 const headings = [
   { depth: 2, slug: '关于我', text: '关于我' },
