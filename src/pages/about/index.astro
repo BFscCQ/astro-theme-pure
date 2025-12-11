@@ -3,9 +3,13 @@ import { Button, Collapse, Spoiler, Timeline } from 'astro-pure/user'
 import PageLayout from '@/layouts/CommonPage.astro'
 import Substats from '@/components/about/Substats.astro'
 import ToolSection from '@/components/about/ToolSection.astro'
+import { getCommits } from '@/utils/git'
+
+const commits = getCommits(10)
 
 const headings = [
-  { depth: 2, slug: '关于我', text: '关于我' }
+  { depth: 2, slug: '关于我', text: '关于我' },
+  { depth: 2, slug: 'update-log', text: '更新日志' }
   // { depth: 2, slug: 'tools', text: 'Tools' },
   // { depth: 2, slug: 'social-networks', text: 'Social Networks' },
   // { depth: 2, slug: 'gossips', text: 'Gossips' },
@@ -258,4 +262,7 @@ const headings = [
       >
     </li>
   </ul> -->
+  {/* update-log */}
+  <h2 id='update-log'>更新日志</h2>
+  <Timeline events={commits} />
 </PageLayout>
