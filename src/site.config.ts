@@ -50,13 +50,14 @@ export const theme: ThemeUserConfig = {
   header: {
     menu: [
       { title: '文章', link: '/blog' },
-      { title: '文档', link: '/docs' },
+      // { title: '文档', link: '/docs' },
       // { title: '项目', link: '/projects' },
       { title: '影视', link: '/movies' },
       { title: '阅读', link: '/books' },
       { title: '游戏', link: '/games' },
       { title: '音乐', link: '/music' },
       { title: '订阅', link: '/subscription' },
+      { title: '装备', link: '/equipment' },
       // { title: '友链', link: '/links' },
       // { title: '关于', link: '/about' }
     ]

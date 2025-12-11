@@ -1,0 +1,160 @@
+---
+import data from 'public/equipment.json'
+
+import { BackToTop, TOC } from 'astro-pure/components/pages'
+import { Icon } from 'astro-pure/user'
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import EquipmentStats from '@/components/equipment/EquipmentStats.astro'
+import fallbackImage from '@/assets/404.jpg'
+import config from '@/site-config'
+
+// Type definitions
+interface EquipmentItem {
+  name: string
+  specification: string
+  status: string
+  description: string
+  image: string
+  link: string
+}
+
+interface Category {
+  title: string
+  description: string
+  equipment_list: EquipmentItem[]
+}
+
+const { good_things } = data[0] as {
+  class_name: string
+  tip: string
+  good_things: Category[]
+}
+
+// Generate headings dynamically
+const headings = good_things.map((category) => ({
+  depth: 2,
+  slug: category.title,
+  text: category.title
+}))
+---
+
+<BaseLayout meta={{ title: '装备', description: config.description }} wide={true}>
+  <div class='grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-10'>
+    {/* Sidebar */}
+    <aside class='lg:block'>
+      <div class='sticky top-24 space-y-8'>
+        <TOC headings={headings} />
+        <EquipmentStats good_things={good_things} />
+      </div>
+    </aside>
+
+    {/* Mobile sidebar */}
+    <aside
+      class='lg:hidden fixed top-20 start-4 z-40 w-48 bg-muted border rounded-xl px-4 py-3 overflow-y-auto'
+      style='max-height: calc(100vh - 7rem); display: none;'
+      id='sidebar-mobile'
+    >
+      <TOC headings={headings} />
+      <EquipmentStats good_things={good_things} />
+    </aside>
+    <div
+      id='sidebar-shade'
+      class='fixed top-0 start-0 w-full h-full lg:hidden'
+      style='display:none;background-color:#00000091;z-index:31'
+    >
+    </div>
+
+    {/* Main Content */}
+    <div class='min-w-0'>
+      <div id='content-header' class='animate mb-8'>
+        <h1 class='text-3xl font-bold sm:text-4xl'>{data[0].class_name}</h1>
+        <p class='mt-2 text-muted-foreground'>{data[0].tip}</p>
+      </div>
+
+      <article id='content'>
+        {
+          good_things.map((category) => (
+            <>
+              <h2 id={category.title} class='text-2xl font-semibold mb-6'>
+                {category.title}
+              </h2>
+              <div class='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 mb-12'>
+                {category.equipment_list.map((item) => (
+                  <div
+                    class='equipment-card group overflow-hidden rounded-xl border bg-card shadow-sm transition-all hover:shadow-md'
+                    data-status={item.status || '未知'}
+                  >
+                    <a
+                      href={item.link || '#'}
+                      target='_blank'
+                      class='block overflow-hidden'
+                      style='aspect-ratio: 1;'
+                    >
+                      <img
+                        src={item.image || fallbackImage.src}
+                        alt={item.name}
+                        class='h-full w-full object-cover transition-transform duration-300 group-hover:scale-105'
+                        loading='lazy'
+                      />
+                    </a>
+                    <div class='p-3'>
+                      <a href={item.link || '#'} target='_blank' class='hover:underline'>
+                        <h3 class='text-base font-bold leading-tight truncate'>{item.name}</h3>
+                      </a>
+                      <div class='mt-1 flex items-center justify-between'>
+                        <span class='text-xs text-muted-foreground truncate max-w-[60%]'>
+                          {item.specification}
+                        </span>
+                        {item.status && <span class='text-xs'>{item.status}</span>}
+                      </div>
+                      {item.description && (
+                        <p class='mt-3 text-sm text-muted-foreground'>{item.description}</p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          ))
+        }
+      </article>
+    </div>
+  </div>
+
+  <BackToTop header='content-header' content='content'>
+    <button
+      slot='other-icons'
+      aria-label='Toggle sidebar'
+      class='size-10 flex items-center justify-center rounded-full border-2 border-transparent bg-muted text-muted-foreground duration-300 hover:border-border/75 lg:hidden sm:size-12'
+      id='sidebar-btn'
+    >
+      <Icon name='list' />
+    </button>
+  </BackToTop>
+</BaseLayout>
+
+<script>
+  const sidebarButton = document.getElementById('sidebar-btn')
+  const sidebar = document.getElementById('sidebar-mobile')
+  const sidebarShade = document.getElementById('sidebar-shade') as HTMLElement
+
+  if (sidebarShade) {
+    sidebarShade.addEventListener('click', () => {
+      toggleSidebar()
+    })
+  }
+
+  function toggleSidebar() {
+    if (sidebar && sidebar.style.display !== 'none') {
+      sidebar.style.display = 'none'
+      sidebarShade.style.display = 'none'
+    } else if (sidebar) {
+      sidebar.style.display = 'block'
+      sidebarShade.style.display = 'block'
+    }
+  }
+
+  sidebarButton?.addEventListener('click', () => {
+    toggleSidebar()
+  })
+</script>

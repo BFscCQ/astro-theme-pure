@@ -1,0 +1,288 @@
+- class_name: 工欲善其事
+  description: 必先利其器
+  tip: 跟我一起享受科技进步带来的便捷
+  top_background: /images/equipment/top_back.jpg
+  good_things:
+    - title: 手机平板
+      description: 
+      equipment_list:
+        - name: 红魔8S pro 暗夜骑士 12GB+256GB
+          specification: ￥3599 服役中
+          description: 买了游戏手机的我反而不喜欢打手游，多少是有点叛逆了。
+          image: /images/equipment/红魔8SPro_暗夜骑士.png
+          link: https://www.nubia.com/product/s/2429
+        - name: IPAD 2022
+          specification: ￥2849 服役中
+          description: 疫情期间过年回家需要远程办公正好想买平板就入了，疫情过去现在是做笔记、看视频的专用工具。
+          image: /images/equipment/IPAD_2022.jpg
+          link: https://www.apple.com.cn/ipad-10.9/
+    - title: 电脑主机
+      description: 
+      equipment_list:
+        - name: 我的主机
+          specification: ￥12900+ 服役中
+          description: 19年自己组装的，i7-10700K CPU+TUF-RTX3070-O8G-V2-GAMING显卡+32G内存条+2.5T固态+8T机械硬盘，机箱如图。
+          image: /images/equipment/长城KM7.jpg
+          link: /
+        - name: NUC11 PAHi7 猎豹峡谷
+          specification: ￥4999 服役中
+          description: 从我工作起就在使用的办公电脑，我基本不出差，笔记本对我来说就有点鸡肋，于是选择了迷你电脑NUC，确实小巧很多，性能也够用。
+          image: /images/equipment/NUC11.jpg
+          link: https://www.asus.com/hk/business/nucs/all-series/filter?Category=NUC-Mini-PCs
+        - name: 群晖 DiskStation® DS920+
+          specification: ￥3930主机 + ￥1558 4T+4T酷狼机械硬盘 服役中
+          description: 一直都有文件同步和存储的需求，就购买了这台群晖，我的博客、音乐影视、跨设备文件同步服务都部署在这台设备上。
+          image: /images/equipment/群晖920+.jpg
+          link: https://www.synology.cn/zh-cn/products/DS920+
+        - name: Nintendo Switch 续航增强版
+          specification: ￥2529 服役中
+          description: 任天堂第一方游戏永远的神！
+          image: /images/equipment/nintendo-switch.jpeg
+          link: https://www.nintendo.com/us/switch/
+    - title: 主机外设
+      description: 
+      equipment_list:
+        - name: LG 27GL830-B 显示器
+          specification: ￥2199 服役中
+          description: 当初咬咬牙买的显示器，用到现在仍然能打，2K144Hz、HDR的效果很不错。
+          image: /images/equipment/27GL830-B.jpg
+          link: https://www.lg.com/cn/support/product/lg-27GL830-B.ACN
+        - name: 迈从 K99-天际橙-风信子轴 键盘
+          specification: ￥329 服役中
+          description: 国内键盘厂商开卷之后购入的，全键热插拔，GASKET结构，灯带，6000mAh的电池，加上颜值很高果断入手
+          image: /images/equipment/迈从K99.jpg
+          link: https://maicong.cn/product/K99/38
+        - name: 罗技G PRO WIRELESS 鼠标
+          specification: ￥599 服役中
+          description: 大家都叫他gpw，很多游戏职业选手都在用。非常轻，能有效的缓解右手压力，非常推荐。
+          image: /images/equipment/pro-wireless-carbon-gallery.webp
+          link: https://www.logitechg.com/zh-cn/products/gaming-mice/pro-wireless-mouse.910-005276.html
+        - name: 罗技 G431 耳机
+          specification: ￥299 服役中
+          description: 之前的无线耳机不记了，由于电子设备实在是太多，各家的无线产品的干扰特别严重，所以游戏耳机还是选了有线产品，好用！
+          image: /images/equipment/g431-gallery-1.webp
+          link: https://www.logitechg.com/zh-cn/products/gaming-audio/g431-7-1-surround-sound-gaming-headset.981-000772.html
+        - name: 京东京造 K8 87 键盘
+          specification: ￥568 服役中
+          description: 当时不知道为啥买了这个，现在办公仍在使用，不推荐。
+          image: /images/equipment/K8.jpg
+          link: /
+        - name: 罗技 ERGO M575 轨迹球鼠标
+          specification: ￥256 服役中
+          description: 抛开睡眠时间，工作日整天要接触鼠标12h以上，高强度使用鼠标右手属实坚持不住，使用轨迹球移动光标确实极大的缓解了手部压力。
+          image: /images/equipment/ergo-m575-gallery-graphite-4.webp
+          link: https://www.logitech.com/zh-cn/products/mice/m575-ergo-wireless-trackball.910-005875.html
+        - name: 任天堂 Nintendo Switch Pro 手柄
+          specification: ￥459 服役中
+          description: 官方pro手柄，体验一流，21年底买的到现在仍在使用。
+          image: /images/equipment/pro-con_image-01.jpg
+          link: https://www.nintendo.com.hk/hardware/switch/accessories/index.html
+        - name: 罗技 G613 键盘
+          specification: ￥539 闲置
+          description: 和G502同时购入的，看中了左侧的自定义按键，但是实际上手发现很容易误触，要培养习惯才行。
+          image: /images/equipment/g613-gallery-3.webp
+          link: https://www.logitechg.com/zh-cn/products/gaming-keyboards/g613-wireless-mechanical-gaming-keyboard.920-008396.html
+    - title: 穿戴设备
+      description: 
+      equipment_list:
+        - name: 蔡司1.74智锐单光树脂镜片
+          specification: ￥2300 服役中
+          description: 原￥5080，提前做过攻略和门店讲到4折，其实没感觉到定制参数有什么区别，可能是钱还不到位吧。
+          image: /images/equipment/蔡司1.74智锐单光.jpg
+          link: https://www.zeiss.com.cn/vision-care/need-new-lenses/single-vision-smartlife-lenses.html
+        - name: 小米手环3 NFC版
+          specification: ￥199 服役中
+          description: 用于日常出行刷卡，说实话，很难想象首发买的到现在已经6年了，我仍然在使用，期间不知道换了多少次表带，丢了多少次充电线。
+          image: /images/equipment/mi_band_3.jpg
+          link: https://s1.mi.com/pages/566f0ea4f6c2e947f36795c8f58ba901/index.html
+        - name: Redmi Buds 4 Pro
+          specification: ￥299 服役中
+          description: 我的第一款无线降噪耳机，当我第一次使用降噪功能惊为天人。
+          image: /images/equipment/Redmi_Buds_4_Pro.jpeg
+          link: https://www.mi.com/redmibuds4pro
+        - name: 荡天涯·如意金箍棒黄金转运珠手绳
+          specification: ￥6600 服役中
+          description: 管了大半年的手，连主机都没舍得升级，结果还是冲动消费了。
+          image: /images/equipment/2025/202508150101.webp
+          link: https://m.ctfmall.com/subpages/product/detail?productId=R37310&keyword=黑神话
+    - title: 摄影打印
+      description: 
+      equipment_list:
+        - name: 松下全画幅无反相机DC-S5KGK-K
+          specification: ￥9498 服役中
+          description: 套装搭配2060镜头拍日常，另外购买定焦镜头拍人像。摄影圣经：你本来就长这样；你本来腿就短；我的相机不会骗人。
+          image: /images/equipment/S5K.png
+          link: https://consumer.panasonic.cn/product/cameras-camcorders/lumix-series/lumix-s-series/dc-s5k.html
+        - name: MEKE 85mm F1.4 FF STM
+          specification: ￥2499 服役中
+          description: L卡口可选很少，50mm焦段大都价格超群，所以选了8514，上手试了后效果有点超乎预料。
+          image: /images/equipment/2025/202508250101.jpg
+          link: http://www.mkgrip.cn/goods/show-487.html
+        - name: 影石Insta360 GO 3
+          specification: ￥1998 闲置
+          description: 24年来苏州的时候购买的，记录生活，记录风景，效果挺好的。
+          image: /images/equipment/go3.webp
+          link: https://www.insta360.com/cn/product/insta360-go3
+        - name: KODAK柯达 Mini 3 Retro
+          specification: ￥988 服役中
+          description: 便捷式口袋照片打印机，打印效果不如大的打印机，但是方便携带。
+          image: /images/equipment/KODAK柯达-Mini-3-Retro.jpg
+          link: https://www.kodakphotoprinter.cn/?post_type=product&p=28208
+    - title: 出行户外
+      description: 
+      equipment_list:
+        - name: 九号 C40 国标电动自行车
+          specification: ￥4199 服役中
+          description: 九号的电动车质量、颜值都很不错，国标速度上限25km/h，在下就是遵纪守法好青年。
+          image: /images/equipment/九号C40电动车.png
+          link: https://www.ninebot.com/
+        - name: 米家充气宝2
+          specification: ￥199 服役中
+          description: 和1S似乎没什么区别，额外支持了一个滑板车模式，但由于充气量可以自调节，所以也没啥用。
+          image: /images/equipment/mijiachongqibao2.png
+          link: https://www.mi.com/shop/buy/detail?product_id=18415
+        - name: 光影行星 极星Pro 逐影黑-中 摄影包
+          specification: ￥277 服役中
+          description: 出门我是除了手机和手环基本都不想带的人，但是既然买了相机，就另外买的小一点的包用来装相机吧。正好可以装一机一镜加打印机。
+          image: /images/equipment/gyxxjxp.jpg
+          link: https://shijie.icu/equipment/
+    - title: 家居设备
+      description:
+      equipment_list:
+        - name: 米家烧水壶N1
+          specification: ￥58 服役中
+          description: 选了半天，最后还是感觉不需要智能设备，烧开倒进保温杯就行了
+          image: /images/equipment/米家烧水壶N1.png
+          link: https://www.mi.com/shop/buy/detail?product_id=19147&cfrom=search
+        - name: 米家全能扫拖机器人2
+          specification: ￥2694 服役中
+          description: 日常清洁清扫浮灰，不能完全解放家务，需要定时清理滚刷、垃圾袋、污水箱，补充清水箱，有能力一定要选自动上下水装置。
+          image: /images/equipment/米家全能扫拖机器人2.png
+          link: https://www.mi.com/shop/buy/detail?product_id=18652&cfrom=search
+        - name: 米家智能微波炉20L
+          specification: ￥408 服役中
+          description: 主要用来热牛奶和加热早餐，搬家后用的次数就少了，很好用。
+          image: /images/equipment/米家智能微波炉20L.jpg
+          link: https://www.mi.com/shop/buy/detail?product_id=10330&cfrom=search
+        - name: Redmi AX6000 路由器
+          specification: ￥459 服役中
+          description: 相当具有性价比的千兆路由器，最好的应用方式是刷个三方ROM，才能最大发挥硬件的作用。
+          image: /images/equipment/AX6000.jpg
+          link: https://www.mi.com/shop/buy/detail?product_id=15820&cfrom=search
+        - name: TL-IPC48AW 全彩 800万
+          specification: ￥229 服役中
+          description: TP-LINK全系列摄像头都支持与群晖联动，禁止摄像头本身的联网权限，只在局域网传输监控数据，通过群晖实时查看监控。
+          image: /images/equipment/TL-IPC48AW.jpg
+          link: https://www.tp-link.com.cn/product_1893.html#tag
+    - title: 玩具乐器
+      description: 
+      equipment_list:
+        - name: 塔兰战术 TTI JW4 Pit Viper ???
+          specification: $???
+          description: ???
+          image: /images/equipment/PV_3_w__snake__81941.jpg
+          link: https://tarantacticalinnovations.com/tti-jw4-pit-viper/#mz-expanded-view-1471990810314
+        - name: Heckler & Koch HK416 ???
+          specification: $???
+          description: ???
+          image: /images/equipment/HK416.webp
+          link: https://www.heckler-koch.com/en/Products/Military%20and%20Law%20Enforcement/Assault%20rifles/HK416
+        - name: 恩雅 X1 Pro 41寸 电箱款 吉他
+          specification: ￥1899 服役中
+          description: 上手之前以为很简单，实际上还是需要大量的练习来提升，对手指有一定要求。
+          image: /images/equipment/X1+Pro.jpg
+          link: https://www.enyamusical.com/x-series-guitar
+    - title: Switch 游戏
+      description:
+      equipment_list:
+        - name: Game & Watch:塞尔达传说
+          specification: 实体游戏机
+          description: 说实话没有购买的必要，所有游戏都可以在模拟器中游玩，只用于收藏。
+          image: /images/equipment/2025/202504290101.png
+          link: https://www.nintendo.com/hk/hardware/gamewatch/zelda/index.html
+        - name: 塞尔达传说：智慧的再现
+          specification: 数字版
+          description: 林克！等我探索完全部地图再去救你！
+          image: /images/equipment/Echoes of Wisdom.webp
+          link: https://www.nintendo.com.hk/switch/bdgea/index.html
+        - name: 超级马力欧3D世界 + 狂怒世界
+          specification: 实体卡带
+          description: 买了还没玩，支持本地多人，支持线上联机（需会员），聚会游戏应该挺欢乐的
+          image: /images/equipment/超级马力欧 3D 世界 + 狂怒世界.jpg
+          link: https://www.nintendo.com.hk/switch/auzpa
+        - name: 纸片马力欧：折纸国王
+          specification: 实体卡带
+          description: 很好玩的冒险游戏，非常适合大孩子玩
+          image: /images/equipment/纸片马力欧：折纸国王.webp
+          link: https://www.nintendo.com.hk/switch/aruua
+        - name: 超级马力欧创作家 2
+          specification: 实体卡带
+          description: 线上联机（需会员），有无数作者创作的图可以玩，有对战也有合作，很有意思，但是需要一定的练习。
+          image: /images/equipment/超级马力欧创作家 2.webp
+          link: https://www.nintendo.com.hk/switch/super_mario_maker_2
+        - name: 任天堂明星大乱斗：特别版
+          specification: 数字版
+          description: 虽然本地也可以玩，但还是建议联机对战，搓一搓还是很有意思的。
+          image: /images/equipment/任天堂明星大乱斗：特别版.webp
+          link: https://www.smashbros.com/TC/
+        - name: 健身环大冒险
+          specification: 实体卡带 + 健身环 + 绑带
+          description: 真不知道有没有效果，玩得很累倒是真的。
+          image: /images/equipment/健身环大冒险.webp
+          link: https://www.nintendo.com.hk/switch/ringadventure/
+        - name: 路易吉洋馆3
+          specification: 实体卡带
+          description: 可以本地或在线双人，双人一起玩欢乐多，解密要素较多，吓人指数1颗星。
+          image: /images/equipment/路易吉洋馆3.webp
+          link: https://www.nintendo.com.hk/switch/luigis_mansion_3/
+        - name: 超级马力欧：奥德赛
+          specification: 实体卡带
+          description: 马里奥系列的神作，神中神，喜欢过关、解密类型的玩家极其推荐。
+          image: /images/equipment/超级马力欧：奥德赛.webp
+          link: https://www.nintendo.com.hk/switch/super_mario_odyssey/
+        - name: 塞尔达传说：旷野之息
+          specification: 数字版
+          description: 神中神，入坑switch的神作，很多游戏的设计都参考了本游戏。
+          image: /images/equipment/塞尔达传说：旷野之息.webp
+          link: https://www.nintendo.com.hk/switch/zelda_botw/
+        - name: 集合啦！动物森友会
+          specification: 实体卡带
+          description: 需要朋友才不会感觉孤独！
+          image: /images/equipment/集合啦！动物森友会.webp
+          link: https://www.nintendo.com.hk/switch/animal_crossing_new_horizons/
+        - name: Nintendo Switch 运动
+          specification: 实体卡带 + 绑带
+          description: 线上联机对战才会有趣一些，当然，线下也行~
+          image: /images/equipment/Nintendo Switch 运动.png
+          link: https://www.nintendo.com.hk/switch/as8sa/
+        - name: 塞尔达传说：王国之泪
+          specification: 实体卡带
+          description: 又一部塞尔达传说神作，奇思妙想充分发挥想象力创造力，好玩！
+          image: /images/equipment/塞尔达传说：王国之泪.webp
+          link: https://www.nintendo.com.hk/zelda/totk/index.html
+        - name: 塞尔达传说：织梦岛
+          specification: 实体卡带
+          description: 咸鱼购入还没玩，新作《塞尔达传说：智慧的再现》一出，又涨了不少...
+          image: /images/equipment/塞尔达传说：织梦岛.webp
+          link: https://www.nintendo.com.hk/switch/zelda_links_awakening/
+    - title: 已转让
+      description: 
+      equipment_list:
+        - name: Xiaomi 10 至尊纪念版 透明版
+          specification: ￥5999
+          description: 小米10U是我在去上海参会，午休期间逛东方明珠时购买的，陪伴了我很长一段时间。
+          image: /images/equipment/小米10至尊纪念版_透明版.png
+          link: https://www.mi.com/mi10ultra
+    - title: 已损坏设备
+      description: 
+      equipment_list:
+        - name: 罗技 G502 HERO 鼠标
+          specification: ￥549 损坏
+          description: 第一款比较好的游戏鼠标，功能键很多，适合重度游戏玩家。
+          image: /images/equipment/g502-hero-intro-nb.webp
+          link: https://www.logitechg.com/zh-cn/products/gaming-mice/g502-hero-gaming-mouse.910-005474.html
+        - name: 米家充气宝1S
+          specification: ￥199 已损坏
+          description: 四种模式，球类、自行车、电动摩托车、甚至汽车都可以充，体验很好。自己维修的时候触碰还打电火花，有点怕炸了🥲，还是不修了。
+          image: /images/equipment/充气宝1S.jpg
+          link: https://www.mi.com/shop/buy/detail?product_id=14460

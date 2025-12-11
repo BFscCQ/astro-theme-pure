@@ -1,0 +1,117 @@
+---
+interface EquipmentItem {
+  name: string
+  specification: string
+  status: string
+  description: string
+  image: string
+  link: string
+}
+
+interface Category {
+  title: string
+  description: string
+  equipment_list: EquipmentItem[]
+}
+
+interface Props {
+  good_things: Category[]
+}
+
+const { good_things } = Astro.props
+
+// Calculate statistics
+let totalItems = 0
+const statusCounts = {
+  服役中: 0,
+  闲置: 0,
+  已损坏: 0,
+  已转让: 0,
+  未知: 0
+}
+
+good_things.forEach((category) => {
+  category.equipment_list.forEach((item) => {
+    totalItems++
+    const status = item.status || '未知'
+    if (status in statusCounts) {
+      statusCounts[status as keyof typeof statusCounts]++
+    } else {
+      statusCounts['未知']++
+    }
+  })
+})
+
+const maxCount = Math.max(...Object.values(statusCounts))
+---
+
+<div class='mt-8 border-t pt-8'>
+  <div class='mb-4 flex items-center justify-between'>
+    <h2 class='text-lg font-semibold'>统计</h2>
+    <div class='text-xs text-muted-foreground'>
+      共收录 <span class='font-medium text-foreground'>{totalItems}</span> 件设备
+    </div>
+  </div>
+
+  <div class='space-y-4'>
+    {/* Status Distribution */}
+    <div class='space-y-2'>
+      <div class='text-xs font-medium text-muted-foreground'>状态分布</div>
+      <div class='space-y-1.5'>
+        {
+          Object.entries(statusCounts).map(
+            ([status, count]) =>
+              count > 0 && (
+                <button
+                  class='status-filter-btn flex w-full items-center gap-2 text-xs hover:bg-muted/50 rounded-md p-1 transition-colors'
+                  data-status={status}
+                >
+                  <div class='w-12 shrink-0 text-left text-muted-foreground'>{status}</div>
+                  <div class='flex-1 overflow-hidden rounded-full bg-muted/50'>
+                    <div
+                      class='h-1.5 rounded-full bg-primary transition-all duration-500'
+                      style={`width: ${maxCount > 0 ? (count / maxCount) * 100 : 0}%`}
+                    />
+                  </div>
+                  <div class='w-6 shrink-0 text-right text-muted-foreground'>{count}</div>
+                </button>
+              )
+          )
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const filterButtons = document.querySelectorAll('.status-filter-btn')
+  const equipmentCards = document.querySelectorAll('.equipment-card')
+  let activeFilter: string | null = null
+
+  filterButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const status = btn.getAttribute('data-status')
+
+      // Toggle filter
+      if (activeFilter === status) {
+        activeFilter = null
+        btn.classList.remove('bg-muted')
+      } else {
+        // Remove active class from all buttons
+        filterButtons.forEach((b) => b.classList.remove('bg-muted'))
+        activeFilter = status
+        btn.classList.add('bg-muted')
+      }
+
+      // Filter cards
+      equipmentCards.forEach((card) => {
+        const cardStatus = card.getAttribute('data-status')
+        if (!activeFilter || cardStatus === activeFilter) {
+          ;(card as HTMLElement).style.display = ''
+        } else {
+          ;(card as HTMLElement).style.display = 'none'
+        }
+      })
+    })
+  })
+</script>
